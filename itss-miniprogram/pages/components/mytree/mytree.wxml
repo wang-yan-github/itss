@@ -1,0 +1,25 @@
+<!-- pages/components/mytree/mytree.wxml -->
+<view class="treebox">
+    <view class="flex">
+        <view bindtap='tapItem' data-item='{{ model }}' class="name">
+            <view wx:if='{{ isBranch }}' class="dianji">
+               <view wx:if='{{ open }}'>
+                  <van-icon name="play" />
+               </view>
+               <view wx:else>
+                 <van-icon name="play" custom-class="roted" />
+               </view>                
+            </view>
+            <view wx:else class='dianji'><van-icon name="label-o" /></view>
+            <view class="nametitle" >{{ model.name }}</view>
+        </view>
+        <view wx:if='{{ isBranch }}' bindtap='toggle' class="dianji">
+            <van-icon name="{{open ? 'arrow' : 'arrow-down' }}" />
+        </view>
+        <view wx:else class='dianji'></view>
+    </view>
+    <view style='padding-left: 20rpx' wx:if='{{ isBranch }}' hidden='{{ !open }}'>
+        <mytree wx:for='{{ model.childMenus }}' wx:key='id' model='{{ item }}' selectKey="{{selectKey}}"></mytree>
+    </view>
+</view>
+<van-toast id="van-toast" />

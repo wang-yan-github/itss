@@ -1,0 +1,102 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+  <!--空白来占位状态栏-->
+  <view style="{{'height: ' + statusBarHeight}}"></view>
+  <!--自定义导航栏-->
+  <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+    <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+      <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+    </view>
+    <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+  </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+  <view class="contWrap">
+    <view class="box">
+      <van-collapse value="{{ activeNames }}" bind:change="onChangecol">
+        <van-collapse-item title="基本信息" name="1" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="wtlyBindtap">
+              <view class="label star">问题来源</view>
+              <view class="inputs sel">{{wtlyValue}}</view>
+            </view>
+            <view class="li" bindtap="yxjBindtap">
+              <view class="label star">优先级</view>
+              <view class="inputs sel">{{yxjValue}}</view>
+            </view>
+            <view class="li" bindtap="wtlbBindtap">
+              <view class="label star">问题类别</view>
+              <view class="inputs sel">{{wtlbValue}}</view>
+            </view>
+            <view class="li">
+              <view class="label star">标题</view>
+              <view class="inputs mr30">
+                <van-field type="text" placeholder="请输入标题" border="{{ false }}" clearable bind:change='onchangedata' value="{{ formData.title }}" data-params="title" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label">描述</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangedata' value="{{ formData.description }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li" bindtap="choosed1">
+              <view class="label relation-label">关联的工单</view>
+              <view class="inputs sel" wx:for="{{changeList}}" wx:key="item" data-id="{{item.id}}">{{item.title}} </view>
+            </view>
+            <view class="li">
+              <view class="label">附件上传</view>
+              <view class="inputs mt15 heightauto">
+                <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="picDel" bind:click-preview="picView" max-count="3" />
+              </view>
+            </view>
+            <view class="li" bindtap="jjsjBindtap">
+              <view class="label">期望解决时间</view>
+              <view class="inputs sel">{{jjsjValue}}</view>
+            </view>
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="鉴定通知" name="2" size="large">
+          <view class="cloumformbox">
+            <view class="li">
+              <van-checkbox value="{{ checked }}" shape="square" bind:change="onChangeChecked">是否通知
+              </van-checkbox>
+            </view>
+          </view>
+        </van-collapse-item>
+      </van-collapse>
+    </view>
+  </view>
+</view>
+<view class="footbtn" id="footer">
+  <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;" bindtap="backTo">取消</van-button>
+  <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" disabled="{{disabledButton}}" bind:click="onSave">保存</van-button>
+</view>
+
+
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom" custom-style="height:60%;" bind:close="onClose">
+  <view class="texts">
+    <view class="cancle" bindtap="onClose">取消</view>
+    <view class="title">选择服务类型</view>
+    <view class="sure" bindtap="onOkTree">确认</view>
+  </view>
+  <view class="treeboxs">
+    <!-- <tree model='{{ treeData }}' selectKey="{{selectKey}}"></tree> -->
+    <tree dataTree="{{treeData}}" selectKey="{{selectKeys}}" bind:select="handleSelect" isSelectLastNode="true" isOpenAll="true"></tree>
+  </view>
+
+</van-popup>
+<van-popup show="{{wtlyShow}}" position="bottom">
+  <van-picker columns="{{ wtlyColumns }}" default-index="{{ 0 }}" title="选择问题来源" show-toolbar bind:confirm="wtlyOnConfirm" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{yxjShow}}" position="bottom">
+  <van-picker columns="{{ yxjColumns }}" default-index="{{ 0 }}" title="选择优先级" show-toolbar bind:confirm="yxjOnConfirm" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{wtlbShow}}" position="bottom">
+  <van-picker columns="{{ wtlbColumns }}" default-index="{{ 0 }}" title="选择问题类型" show-toolbar bind:confirm="wtlbOnConfirm" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{jjsjShow}}" position="bottom">
+  <van-datetime-picker bind:confirm="jjsjOnConfirm" bind:cancel="onCancel" type="date" />
+</van-popup>

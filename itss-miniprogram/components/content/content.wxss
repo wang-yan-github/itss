@@ -1,0 +1,36 @@
+.content {
+  width: 100%;
+  padding: 0 0rpx 0 0rpx;
+  border-top: 10rpx solid transparent;
+  border-bottom: 10rpx solid transparent;
+  margin-bottom: 0rpx;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.contentInner {
+  width: 100%;
+  color: #2f3033;
+  font-size: 30rpx;
+  line-height: 1.35;
+  text-align: justify;
+}
+
+.hideArea {
+  display: -webkit-box;
+  overflow: hidden;
+  position: fixed;
+  top: 100vh;
+  left: -100vw;
+}
+
+.foldInner {
+  width: 100%;
+  padding-top: 10rpx;
+}
+
+.foldInner .fold {
+  color: #6676bd;
+  font-size: 28rpx;
+  cursor: pointer;
+}

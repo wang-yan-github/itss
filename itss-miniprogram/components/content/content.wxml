@@ -1,0 +1,7 @@
+<view class="content">
+  <view class="contentInner showArea {{!onFold ? 'text-clamp' + maxline : ''}}" bindtap="{{foldable ? 'handleFold' : ''}}"><rich-text nodes="{{content}}"></rich-text></view>
+  <view class="contentInner hideArea"><rich-text nodes="{{content}}"></rich-text></view>
+  <view class="foldInner {{position === 'right' ? 'flex-end' : 'flex'}}" wx:if="{{showFold}}">
+    <text class="fold" catchtap="handleFold">{{onFold ? "收起" : "全部"}}</text>
+  </view>
+</view>

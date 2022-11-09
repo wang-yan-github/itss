@@ -1,0 +1,100 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+  <!--空白来占位状态栏-->
+  <view style="{{'height: ' + statusBarHeight}}"></view>
+  <!--自定义导航栏-->
+  <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+    <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+      <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+    </view>
+    <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+  </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+  <view class="contWrap">
+    <view class="box">
+      <van-collapse value="{{ activeNames }}" bind:change="onChangecol">
+        <van-collapse-item title="基本信息" name="1" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="chooseCategory">
+              <view class="label star">发布类别</view>
+              <view class="inputs sel">{{categoryName}}</view>
+            </view>
+            <view class="li" bindtap="chooseType">
+              <view class="label star">发布类型</view>
+              <view class="inputs sel">{{type_name}}</view>
+            </view>
+            <view class="li" >
+              <view class="label ">评审人</view>
+              <view class="inputs ">{{approver}}</view>
+            </view>
+            <view class="li">
+              <view class="label ">发布人</view>
+              <view class="inputs ">{{publisherName}}</view>
+            </view>
+            <view class="li">
+              <view class="label star">标题</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangeTitle' value="{{ mytitle }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">申请发布理由</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangereason' value="{{ reason }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">发布内容</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangecontent' value="{{ content }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">发布方案</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangepublishplan' value="{{ publish_plan }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">测试方案</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangetestplan' value="{{ test_plan }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li" bindtap="chooseTester">
+              <view class="label star">测试人</view>
+              <view class="inputs sel">{{tester_name}}</view>
+            </view>
+           
+      
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="关联的变更" name="2" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="choosed1">
+              <view class="label relation-label">关联的变更</view>
+              <view class="inputs sel" wx:for="{{changeList}}" wx:key="item" data-id="{{item.id}}">{{item.title}} </view>
+            </view>
+          </view>
+        </van-collapse-item>
+      </van-collapse>
+    </view>
+  </view>
+</view>
+<view class="footbtn" id="footer">
+  <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;" bindtap="backTo">取消</van-button>
+  <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" disabled="{{disabledButton}}" bind:click="onEventSave">保存</van-button>
+</view>
+
+
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+         <van-picker columns="{{ categoryNameList }}" bind:change="onChange"  title="选择类别" default-index="{{ 1 }}" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+<van-action-sheet show="{{ show1 }}" actions="{{ actions1 }}" cancel-text="取消" bind:close="onClose1" bind:cancel="onCancel1" bind:select="onSelect1" />
+
+<van-popup show="{{show2}}" position="bottom">
+  <van-picker columns="{{ testNameList }}" bind:change="onChange" default-index="{{ 0 }}" title="选择测试人" show-toolbar bind:confirm="onConfirm2" bind:cancel="onCancel2" />
+</van-popup>

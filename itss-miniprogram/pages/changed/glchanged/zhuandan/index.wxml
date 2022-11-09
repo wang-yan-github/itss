@@ -1,0 +1,137 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+          <view class="h2">{{form.changeInfo.title}}</view>
+            <view class="jj"> 
+              <custom-content content="{{form.changeInfo.change_reason}}" maxline="1" position="right" foldable="true"></custom-content>
+             </view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="工单信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">标题</view>
+                            <view class="inputs heightauto">
+                                <custom-content content="{{form.changeInfo.title}}" maxline="1" position="right" foldable="true"></custom-content>
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">变更原因</view>
+                            <view class="inputs heightauto">
+                                <!-- <rich-text nodes="{{form.changeInfo.change_reason}}"></rich-text> -->
+                                <custom-content content="{{form.changeInfo.change_reason}}" maxline="1" position="right" foldable="true"></custom-content>
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">当前环境</view>
+                            <view class="inputs heightauto">
+                                <!-- <rich-text nodes="{{form.changeInfo.current_environment}}"></rich-text> -->
+                                <custom-content content="{{form.changeInfo.current_environment}}" maxline="1" position="right" foldable="true"></custom-content>
+                            </view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="变更信息" name="2" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">编号</view>
+                            <view class="inputs">{{form.changeInfo.id }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">变更单号</view>
+                            <view class="inputs">{{form.changeInfo.change_no }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">当前状态</view>
+                            <view class="inputs">{{form.status_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">当前操作人</view>
+                            <view class="inputs">{{form.handler_user_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">创建人</view>
+                            <view class="inputs">{{form.create_user_uname}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">创建时间</view>
+                            <view class="inputs">{{form.changeInfo.create_time}}</view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="分类信息" name="3" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">变更类别</view>
+                            <view class="inputs">{{form.classify_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">变更类型</view>
+                            <view class="inputs" wx:if="{{form.changeInfo.change_type==1}}">紧急变更</view>
+                            <view class="inputs" wx:if="{{form.changeInfo.change_type==2}}">一般变更</view>
+                            <view class="inputs" wx:if="{{form.changeInfo.change_type==3}}">重大变更</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">变更来源</view>
+                            <view class="inputs">{{form.source_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">计划开始时间</view>
+                            <view class="inputs">{{form.changeInfo.start_time}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">计划完成时间</view>
+                            <view class="inputs">{{form.changeInfo.end_time}}</view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+
+                <van-collapse-item title="转办信息" name="4" size="large">
+                    <view class="cloumformbox">
+                        <view class="li" bindtap="showjiejue">
+                            <view class="label star">转办人</view>
+                            <view class="inputs sel">{{selectName}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">备注</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field type="textarea" bindinput="remarks" autosize value="" placeholder="请输入备注" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item class="customtitle" title="时间信息" name="5" size="large">
+                    <van-row gutter="20">
+                        <van-col span="24">
+                            <van-steps steps="{{ stepData }}" active="{{ stepsactive }}" direction="vertical" active-color="#498ae6" />
+                        </van-col>
+                    </van-row>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+    <van-picker columns="{{ columns }}" bind:change="onChangejieju" default-index="{{ 1 }}" title="选择解决方式" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+
+
+<view class="footbtn" id="footer">
+    <van-button type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;" bindtap="saveClick">保存</van-button>
+    <van-button plain type="info" bind:change="quxiao" custom-style="width:300rpx;margin-left:10px;border-radius:5px;">取消</van-button>
+</view>

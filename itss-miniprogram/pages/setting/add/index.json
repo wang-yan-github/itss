@@ -1,0 +1,4 @@
+{
+  "usingComponents": {"tree":"../../components/mytree/mytree"},
+  "navigationBarTextStyle":"black"
+}

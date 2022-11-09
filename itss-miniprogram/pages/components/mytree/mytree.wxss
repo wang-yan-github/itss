@@ -1,0 +1,27 @@
+/* pages/components/mytree/mytree.wxss */
+.color {
+    background-color: rgba(0, 0, 0,.05);
+}
+.color1{background:#fff;}
+
+.treebox{padding:0 0rpx;}
+.flex {
+    display: flex;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: solid 1px #eee;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:0 0rpx;
+    box-sizing: border-box;
+    width:100%;
+    padding-left:20rpx;
+    padding-right:20rpx;
+}
+.name{display: flex;flex-direction: row;box-sizing: border-box;}
+.name .nametitle{margin-left:10rpx;}
+.roted{transform: rotate(90deg);}
+.tree-item-name-select {
+  background: #ECF7FA;
+  color: #0079FE;
+}

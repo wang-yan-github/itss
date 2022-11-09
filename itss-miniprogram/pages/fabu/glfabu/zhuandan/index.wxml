@@ -1,0 +1,85 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">照明设施的养护维修</view>
+            <view class="jj">描述：徐州市云龙区泰山路段的路灯不正常闪烁，影响正常的交通通行，急需维修。</view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="处理信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">开单人</view>
+                            <view class="inputs">王文文</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">开单时间</view>
+                            <view class="inputs">2022-07-15 11:33:10</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">响应人</view>
+                            <view class="inputs">王文文</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">响应时间</view>
+                            <view class="inputs">2022-07-15 11:33:10</view>
+                        </view>
+                        <view class="li">
+                            <view class="label star">预计解决时间</view>
+                            <view class="inputs sel">请选择</view>
+                        </view>
+                        <view class="li" bindtap="showjiejue">
+                            <view class="label star">解决方式</view>
+                            <view class="inputs sel">请选择</view>
+                        </view>
+                        <view class="li">
+                            <view class="label star">方案分类</view>
+                            <view class="inputs sel">请选择</view>
+                        </view>
+                        <view class="li">
+                            <view class="label star">费用</view>
+                            <view class="inputs mr30">
+                                <van-field type="digit" value="" placeholder="请输入费用" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">解决方案</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field type="textarea" autosize value="" placeholder="请输入费用" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">附件上传</view>
+                            <view class="inputs mt15 heightauto">
+                                <van-uploader file-list="{{ fileList }}" />
+                            </view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+    <van-picker columns="{{ columns }}" bind:change="onChangejieju" default-index="{{ 1 }}" title="选择解决方式" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+
+
+<view class="footbtn" id="footer">
+    <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;">取消</van-button>
+    <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" bindtap="onClosepopup">处理</van-button>
+</view>

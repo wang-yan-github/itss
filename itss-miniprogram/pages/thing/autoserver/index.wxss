@@ -1,0 +1,14 @@
+/* pages/thing/working/index.wxss */
+.navigation-title {
+    color: #000
+}
+
+.navigation-container {
+    background: #fff;
+}
+
+.footline {
+  width: 100%;
+  text-align: center;
+  color: #999;
+}

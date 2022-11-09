@@ -1,0 +1,6 @@
+@charset "utf-8";
+.index-container{
+  ::v-deep{
+    .current-row{td.el-table__cell{background-color:#ddeefd!important;.cell{color:#000!important;}}}
+  }
+}

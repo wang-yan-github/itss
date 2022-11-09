@@ -1,0 +1,110 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+  <!--空白来占位状态栏-->
+  <view style="{{'height: ' + statusBarHeight}}"></view>
+  <!--自定义导航栏-->
+  <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+    <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+      <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+    </view>
+    <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+  </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+  <view class="contWrap">
+    <view class="box">
+      <van-collapse value="{{ activeNames }}" bind:change="onChangecol">
+        <van-collapse-item title="基本信息" name="1" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="choosefuwu">
+              <view class="label star">服务类别</view>
+              <view class="inputs sel">{{selectKey.name?selectKey.name:''}}</view>
+            </view>
+            <view class="li">
+              <view class="label star">标题</view>
+              <view class="inputs mr30">
+                <van-field type="digit" placeholder="请输入标题" border="{{ false }}" clearable bind:change='onchangedata' value="{{ formData.title?formData.title:'' }}" data-params="title" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">描述</view>
+              <view class="inputs mr30 heightauto">
+                <editor id="editor" class="ql-container" placeholder="请输入描述" showImgSize showImgToolbar showImgResize read-only="{{readOnly}}" bindready="onEditorReady" bindinput="changeDescription"></editor>
+                <!-- <view class="label-des000"><rich-text nodes="{{formData.description?formData.description:''}}"></rich-text></view> -->
+                <!-- <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangedata' value="{{ formData.description?formData.description:'' }}" data-params="description" /> -->
+              </view>
+            </view>
+            <view class="li" bindtap="choosed1">
+              <view class="label star">关联的配置项</view>
+              <view class="inputs sel">{{pzx?pzx:''}}</view>
+            </view>
+            <!-- <view class="li">
+              <view class="label">附件上传</view>
+              <view class="inputs mt15 heightauto">
+                <van-uploader file-list="{{ fileList }}"  bind:after-read="afterRead" bind:delete="picDel" bind:click-preview="picView" max-count="3"  />
+              </view>
+            </view> -->
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="分类信息" name="2" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="choosed2">
+              <view class="label star">请求类型</view>
+              <view class="inputs sel">{{qqlx?qqlx:''}}</view>
+            </view>
+            <view class="li" bindtap="choosed3">
+              <view class="label star">紧急度</view>
+              <view class="inputs sel">{{jjd?jjd:''}}</view>
+            </view>
+            <view class="li" bindtap="choosed4">
+              <view class="label star">影响度</view>
+              <view class="inputs sel">{{yyd?yyd:''}}</view>
+            </view>
+            <view class="li">
+              <view class="label">优先级</view>
+              <view class="inputs">
+                {{formData.priority_name?formData.priority_name:''}}
+              </view>
+            </view>
+            <view class="li">
+              <view class="label">响应SLA/解决SLA</view>
+              <view class="inputs">
+                {{formData.responseSLA?formData.responseSLA:''}}
+              </view>
+            </view>
+          </view>
+        </van-collapse-item>
+      </van-collapse>
+    </view>
+  </view>
+</view>
+<view class="footbtn" id="footer">
+  <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;" bindtap="backTo">取消</van-button>
+  <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" disabled="{{disabledButton}}" bind:click="onEventSave">保存</van-button>
+</view>
+
+
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom" custom-style="height:60%;" bind:close="onClose">
+  <view class="texts">
+    <view class="cancle" bindtap="onClose">取消</view>
+    <view class="title">选择服务类型</view>
+    <view class="sure" bindtap="onOkTree">确认</view>
+  </view>
+  <view class="tree">
+    <tree model='{{ treeData }}' selectKey="{{selectKey}}"></tree>
+  </view>
+</van-popup>
+<van-popup show="{{show1}}" position="bottom">
+  <van-picker columns="{{ columns1 }}" bind:change="onChange" default-index="{{ 0 }}" title="选择关联的配置项" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{show2}}" position="bottom">
+  <van-picker columns="{{ columns2 }}" bind:change="onChange" default-index="{{ 0 }}" title="选择请求类型" show-toolbar bind:confirm="onConfirm2" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{show3}}" position="bottom">
+  <van-picker columns="{{ columns3 }}" bind:change="onChange" default-index="{{ 0 }}" title="选择紧急度" show-toolbar bind:confirm="onConfirm3" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{show4}}" position="bottom">
+  <van-picker columns="{{ columns4 }}" bind:change="onChange" default-index="{{ 0 }}" title="选择影响度" show-toolbar bind:confirm="onConfirm4" bind:cancel="onCancel" />
+</van-popup>

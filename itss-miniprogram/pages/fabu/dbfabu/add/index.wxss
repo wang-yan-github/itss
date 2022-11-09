@@ -1,0 +1,16 @@
+/* pages/thing/working/chuli/index.wxss */
+.navigation-title {
+    color: #000
+}
+
+.navigation-container {
+    background: #fff;
+}
+.contWrap{height:calc(100% - 20vw);}
+.box{width:100%;margin-top:2.667vw;}
+.footbtn{
+    display: block;
+}
+.row-box{
+    width: 100%;
+}

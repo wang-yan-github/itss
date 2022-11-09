@@ -1,0 +1,125 @@
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{knowledge.title}}</view>
+            <view class="jj"><rich-text nodes="{{knowledge.content}}"></rich-text></view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="基础信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">状态</view>
+                            <view class="inputs">{{knowledge.knowledge_status == 1 ? '使用' : '禁用'}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">知识类别</view>
+                            <view class="inputs">{{knowledge.categoryName}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">可被全员搜索</view>
+                            <view class="inputs">{{knowledge.is_full_search == 1 ? '是' : '否'}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">推荐知识</view>
+                            <view class="inputs">{{knowledge.is_recommend == 1 ? '推荐' : '不推荐'}}</view>
+                        </view>
+                        <!-- <view class="li">
+                            <view class="label">工程师内部分享范围</view>
+                            <view class="inputs">{{knowledge.knowledge_range}}</view>
+                        </view> -->
+                        <view class="li">
+                            <view class="label">关键字</view>
+                            <view class="inputs">{{knowledge.keyword}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">添加人</view>
+                            <view class="inputs">{{knowledge.createUserName}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">添加时间</view>
+                            <view class="inputs">{{knowledge.create_time}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">修改人</view>
+                            <view class="inputs">{{knowledge.updateUserName}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">上次更新时间</view>
+                            <view class="inputs">{{knowledge.update_time}}</view>
+                        </view>
+
+
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="审批信息" name="2" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">审核人</view>
+                            <view class="inputs">{{knowledge.approver_name == null ? "" :knowledge.approver_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">审核时间</view>
+                            <view class="inputs">{{knowledge.approval_time == null ? "":knowledge.approval_time }}</view>
+                        </view>
+                        <view class="li" wx:if="{{knowledge.status != null}}">
+                            <view class="label">审核状态</view>
+                     
+                            <view class="inputs" wx:if="{{knowledge.status == 1}}">待审核</view>
+                            <view class="inputs" wx:if="{{knowledge.status == 2}}">发布</view>
+                            <view class="inputs" wx:if="{{knowledge.status == 3}}">审核拒绝</view>
+                        </view>
+                        <view class="li" wx:if="{{knowledge.status == null}}">
+                            <view class="label">审核状态</view>
+                            <view class="inputs"></view>
+                        </view>
+                        <view class="li">
+                            <view class="label">审核意见</view>
+                            <view class="inputs">{{knowledge.approval_opinions == null ? "":knowledge.approval_opinions }}</view>
+                        </view>
+
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="评分信息" name="3" size="large">
+                    <view class="cloumformbox">
+                            <view class="label">贡献分</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field bindinput="getPoint" type="textarea" autosize value="" placeholder="1-10分" border="{{ false }}" clearable />
+                            </view>
+                            <view class="label" >评语</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field bindinput="remark" type="textarea" autosize value="" placeholder="请输入评语" border="{{ false }}" clearable />
+                            </view>
+                       
+                    </view>
+                </van-collapse-item>
+              
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<view class="footbtn" id="footer">
+    <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px; " bindtap="onClosepopup">取消</van-button>
+    <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" bindtap="onOpenpopup">确认</van-button>
+</view>
+<!-- <view class="footbtn" id="footer">
+    <van-tabbar active="{{ activetabs }}" bind:change="onChangetabs">
+       
+        <van-tabbar-item icon="edit">备注</van-tabbar-item>
+        <van-tabbar-item icon="revoke">撤销</van-tabbar-item>
+        <van-tabbar-item icon="close">关单</van-tabbar-item>
+        
+    </van-tabbar>
+</view> -->

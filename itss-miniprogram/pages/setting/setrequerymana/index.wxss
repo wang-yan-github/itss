@@ -1,0 +1,8 @@
+/* pages/thing/working/index.wxss */
+.navigation-title {
+    color: #000000
+}
+
+.navigation-container {
+    background: #fff;
+}

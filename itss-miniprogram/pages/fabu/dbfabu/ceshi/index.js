@@ -1,0 +1,258 @@
+// pages/thing/working/chuli/index.js
+import Toast from '@vant/weapp/toast/toast';
+var app = getApp();
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    // 状态栏高度
+    statusBarHeight: wx.getStorageSync('statusBarHeight') + 'px',
+    // 导航栏高度
+    navigationBarHeight: wx.getStorageSync('navigationBarHeight') + 'px',
+    // 胶囊按钮高度
+    menuButtonHeight: wx.getStorageSync('menuButtonHeight') + 'px',
+    // 导航栏和状态栏高度
+    navigationBarAndStatusBarHeight: wx.getStorageSync('statusBarHeight') + wx.getStorageSync('navigationBarHeight') + 'px',
+    title: '测试',
+    topHeight: 0,
+    activeNames: ['1'],
+    show: false,
+    fileList: [{
+        url: 'https://img.yzcdn.cn/vant/leaf.jpg',
+        name: '图片1',
+      },
+      // Uploader 根据文件后缀来判断是否为图片文件
+      // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+      {
+        url: 'http://iph.href.lu/60x60?text=default',
+        name: '图片2',
+        isImage: true,
+        deletable: true,
+      },
+    ],
+    columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+    id: '',
+    publish: {},
+    plan: '',
+    result: '',
+  },
+  backTo() {
+    wx.navigateBack({
+      delta: 0,
+    })
+  },
+  onChange(event) {
+    this.setData({
+      activeNames: event.detail,
+    });
+  },
+  onChangejieju(event) {
+    const {
+      picker,
+      value,
+      index
+    } = event.detail;
+    Toast(`当前值：${value}, 当前索引：${index}`);
+  },
+  showjiejue(event) {
+    this.setData({
+      show: true,
+    });
+  },
+  onConfirm(event) {
+    const {
+      picker,
+      value,
+      index
+    } = event.detail;
+    Toast(`当前值：${value}, 当前索引：${index}`);
+    this.setData({
+      show: false,
+    });
+  },
+
+  onCancel() {
+    this.setData({
+      show: false,
+    });
+    Toast('取消');
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
+    let query = wx.createSelectorQuery();
+    let that = this;
+    query.select("#footer").boundingClientRect()
+    query.exec(function (res) {
+      //取高度
+      console.log(res[0].height);
+      that.setData({
+        topHeight: res[0].height + wx.getStorageSync('statusBarHeight') + wx.getStorageSync('navigationBarHeight'),
+        id: options.id,
+      });
+    })
+    wx.request({
+        url: app.globalData.address + 'publishInfo/getPublishBasic.do',
+        method: 'POST',
+        header: {
+          "Authorization":wx.getStorageSync('tokenValue'),
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: {
+          "id": options.id,
+          "userId": wx.getStorageSync('userInfo').id,
+        },
+        success: function (res) {
+          console.log(res.data.data)
+          var testPlan = res.data.data.test_plan
+          console.log(testPlan)
+          that.setData({
+            publish: res.data.data,
+            plan: testPlan,
+          })
+          console.log(that.data.plan);
+          
+          
+        }
+      })
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+  result: function(e){
+    var that = this;
+    console.log(e.detail);
+    that.setData({
+       result: e.detail,
+    })
+
+  },
+  plan: function(e){
+    var that = this;
+    console.log(e.detail);
+    that.setData({
+       plan: e.detail.html,
+    })
+  },
+  onClosepopup() {
+    wx.navigateTo({
+      url: '../index'
+    })
+  },
+  getTest(){
+    var that = this;
+    if(that.data.result == null || that.data.result == '' ){
+        return;
+    }
+
+
+    wx.request({
+        url: app.globalData.address + 'publishInfo/testPublish.do',
+        method: 'POST',
+        header: {
+          "Authorization":wx.getStorageSync('tokenValue'),
+          "Content-Type": "application/json"
+        },
+        data: {
+          "id": that.data.id,
+          "test_plan" : that.data.plan,
+          "test_result": that.data.plan,
+          "userId": wx.getStorageSync('userInfo').id,
+        },
+        success: function (res) {
+            console.log(res);
+          if(res.data.code == 0){
+            wx.showToast({
+                title: '处理成功',
+                icon: 'success',
+                duration: 2000
+            })
+            that.backTo();
+            // that.onClosepopup();
+          
+        }else {
+            wx.showToast({
+                title: '处理失败',
+                icon: 'error',
+                duration: 2000
+            })
+        }
+        }
+      })
+  },
+  /**   * 初始化富文本框   */
+  onEditorReady: async function () {
+    const that = this;
+    setTimeout(() => {
+        wx.createSelectorQuery().select('#editor').context(function (res) {
+            that.editorCtx = res.context
+            that.editorCtx.setContents({
+                html: that.data.plan
+            })
+        }).exec()
+        // wx.createSelectorQuery().select('#editor2').context(function (res) {
+        //     that.editorCtx = res.context
+        //     that.editorCtx.setContents({
+        //         html: that.data.fallback_plan
+        //     })
+        // }).exec()
+        // wx.createSelectorQuery().select('#editor3').context(function (res) {
+        //     that.editorCtx = res.context
+        //     that.editorCtx.setContents({
+        //         html: that.data.risk_assessment
+        //     })
+        // }).exec()
+    }, 500)
+},
+
+})

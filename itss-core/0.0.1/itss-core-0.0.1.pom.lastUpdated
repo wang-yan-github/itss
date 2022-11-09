@@ -1,0 +1,10 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Wed Mar 30 08:40:06 CST 2022
+@default-Releases-http\://192.168.0.93\:8070/repository/Releases/.lastUpdated=1648553404994
+http\://maven.aliyun.com/nexus/content/groups/public/.error=
+@default-maven-public-http\://192.168.0.93\:8070/repository/maven-public/.lastUpdated=1648553383941
+http\://192.168.0.93\:8070/repository/Releases/.error=Could not transfer artifact com.jsdc\:itss-core\:pom\:0.0.1 from/to Releases (http\://192.168.0.93\:8070/repository/Releases/)\: Connect to 192.168.0.93\:8070 [/192.168.0.93] failed\: Connection timed out\: connect
+https\://maven.aliyun.com/repository/public/.error=
+https\://maven.aliyun.com/repository/public/.lastUpdated=1648600806248
+http\://maven.aliyun.com/nexus/content/groups/public/.lastUpdated=1648600806068
+http\://192.168.0.93\:8070/repository/maven-public/.error=Could not transfer artifact com.jsdc\:itss-core\:pom\:0.0.1 from/to maven-public (http\://192.168.0.93\:8070/repository/maven-public/)\: Connect to 192.168.0.93\:8070 [/192.168.0.93] failed\: Connection timed out\: connect

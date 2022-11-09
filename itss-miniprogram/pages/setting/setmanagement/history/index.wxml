@@ -1,0 +1,44 @@
+<!--pages/setting/setmanagement/history/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+  <!--空白来占位状态栏-->
+  <view style="{{'height: ' + statusBarHeight}}"></view>
+  <!--自定义导航栏-->
+  <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+    <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+      <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+    </view>
+    <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+  </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + navigationBarAndStatusBarHeight + ')'}}">
+  <view class="contWrap container">
+    <view class="tabs-content {{selected?'active':''}}">
+      <view class="list">
+        <view class="li" wx:for="{{history}}" wx:key="item" data-id="{{item.id}}">
+          <view class="row1">
+            <view class="ordernum">
+              <text>{{item.option_type}}
+              </text>
+            </view>
+
+          </view>
+          <view class="row2">
+            <view class="item-row">
+              <text class="p1">操作人：</text>
+              <text class="p2">{{item.user_name}}</text>
+            </view>
+            <view class="item-row">
+              <text class="p1">操作时间：</text>
+              <text class="p2">{{item.option_date}}</text>
+            </view>
+            
+          </view>
+
+        </view>
+       
+      </view>
+      <van-empty description="暂无信息" />
+    </view>
+  </view>
+</view>

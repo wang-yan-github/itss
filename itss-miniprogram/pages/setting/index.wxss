@@ -1,0 +1,42 @@
+/* pages/setting/index.wxss */
+.navigation-title {
+  color: #000000
+}
+
+.navigation-container {
+  background: #fff;
+}
+.box{width:92%;background:#fff;margin-top:30rpx;border-radius:20rpx;padding:30rpx 5px;}
+.box .tt{font-size:32rpx;color:#333;font-weight:600;padding-left:30rpx}
+.box .box_cont{display:flex;flex-wrap: wrap;margin-top:0px;}
+.box .li{width:25%;margin:15px 0px 0;display:flex;flex-direction: column;align-items: center;}
+.box .li .bg{width:90rpx;background:#109def;height:90rpx;border-radius:10px;display:flex;align-items: center;justify-content: center;position:relative;overflow:hidden;}
+.fujian {
+  bottom: -5px;
+  left: 15px;
+  position: absolute;
+  height: 25px;
+  line-height: 20px;
+  font-size: 10px;
+  width: 100%;
+  color: rgb(243, 245, 243);
+  background: rgba(71, 70, 70, 0.2);
+  transform: rotate(-40deg);
+  text-align: center;
+}
+.box .li .bg.bg1{background:#109def;}
+.box .li .bg.bg2{background:#1364fb;}
+.box .li .bg.bg3{background:#0f7cfe;}
+.box .li .bg.bg4{background:#ff8e06;}
+.box .li .bg.bg5{background:#11ba45;}
+.box .li .bg .icon{color:#fff;font-size:48rpx;}
+.box .li .bg image{width:80%;height:80%;}
+.box .li .word{
+    font-size: 14px;
+    line-height: 18px;
+    padding: 0 4px;
+    text-align: center;
+}
+.box .li .add{display:flex;flex-direction: row;}
+.box .li .add .icon{color:#109def;font-size:12px;margin-right:2px;}
+.box .li .add text{font-size:12px;}

@@ -1,0 +1,95 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{event.title}}</view>
+            <view class="jj" ><rich-text nodes="{{event.description}}"></rich-text></view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="处理信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">开单人</view>
+                            <view class="inputs">{{event.create_user_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">开单时间</view>
+                            <view class="inputs">{{event.create_time}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">响应人</view>
+                            <view class="inputs">{{event.response_user_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">响应时间</view>
+                            <view class="inputs">{{event.responseTime}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label star">预计解决时间</view>
+                            
+                            <view class="em">
+                            <picker mode="date" value="{{startTime}}" start="2015-09-01" end="2023-09-01" bindchange="bindDateChange">
+                                <view class="picker">{{startTime}}</view>
+                            </picker>
+                        </view>
+                        </view>
+                        <view class="li" bindtap="showjiejue">
+                            <view class="label star">解决方式</view>
+                            <view class="inputs sel" >{{sole_name}}</view>
+                            
+                        </view>
+                        <view class="li" bindtap="showfenlei">
+                            <view class="label star">方案分类</view>
+                            <view class="inputs sel">{{category_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label ">费用</view>
+                            <view class="inputs mr30">
+                                <van-field bindinput="cost" type="digit" value="" placeholder="请输入费用" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">解决方案</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field bindinput="plan" type="textarea" autosize value="" placeholder="请输入解决方案" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                        <!-- <view class="li">
+                            <view class="label">附件上传</view>
+                            <view class="inputs mt15 heightauto">
+                                <van-uploader file-list="{{ fileList }}"  bind:after-read="afterRead" bind:delete="picDel" bind:click-preview="picView" max-count="3"  />
+                            </view>
+                        </view> -->
+                    </view>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+    <van-picker columns="{{ columns }}" bind:change="onChangejieju" default-index="{{ 1 }}" title="选择解决方式" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+
+<van-toast id="van-toast" />
+<van-popup show="{{show1}}" position="bottom">
+    <van-picker columns="{{ columns1 }}" bind:change="onChangefenlei" default-index="{{ 1 }}" title="选择分类方案" show-toolbar bind:confirm="onConfirm1" bind:cancel="onCancel1" />
+</van-popup>
+
+<view class="footbtn" id="footer">
+    <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;" bindtap="onClosepopup">取消</van-button>
+    <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" bindtap="onOpenpopup">处理</van-button>
+</view>

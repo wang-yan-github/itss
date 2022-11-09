@@ -1,0 +1,96 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{assets.am_assets_name}}</view>
+            <!-- <view class="jj">描述：徐州市云龙区泰山路段的路灯不正常闪烁，影响正常的交通通行，急需维修。</view> -->
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="详情信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">资产编号</view>
+                            <view class="inputs">{{assets.am_assets_number}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">所属盘点期</view>
+                            <view class="inputs">{{assets.ai_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">配置项类型</view>
+                            <view class="inputs">{{assets.aty_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">配置子类</view>
+                            <view class="inputs">{{assets.ac_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">部门</view>
+                            <view class="inputs">{{assets.sd_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">领用人</view>
+                            <view class="inputs">{{assets.su_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">资产状态</view>
+                            <view class="inputs">{{assets.ast_status_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">IT状态</view>
+                            <view class="inputs" wx:if="{{assets.am_it_status == 1}}">使用</view>
+                            <view class="inputs" wx:if="{{assets.am_it_status != 1}}">禁用</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">确认人</view>
+                            <view class="inputs">{{assets.suc_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">处理人</view>
+                            <view class="inputs">{{assets.suh_name == null ? "": assets.suh_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">确认时间</view>
+                            <view class="inputs">{{assets.confirm_time}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">盘点结果</view>
+                            <view class="inputs">{{assets.handle_result == null ? "": assets.handle_result}}</view>
+                        </view>
+
+                        <view class="li">
+                            <view class="label">处理结果</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field bindinput="remark" type="textarea" autosize value="" placeholder="请输入处理结果" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+        
+                    </view>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+    <van-picker columns="{{ columns }}" bind:change="onChangejieju" default-index="{{ 1 }}" title="选择解决方式" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+
+
+<view class="footbtn" id="footer">
+    <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px; " bindtap="onClosepopup">取消</van-button>
+    <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" bindtap="onOpenpopup">处理</van-button>
+</view>

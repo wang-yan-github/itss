@@ -1,0 +1,87 @@
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <!-- <view class="jianyao">
+            <view class="h2">照明设施的养护32维修22222</view>
+            <view class="jj">描述：徐州市云龙区泰山路段的路灯不正常闪烁，影响正常的交通通行，急需维修。</view>
+        </view> -->
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="基础信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">请求编号</view>
+                            <view class="inputs">{{req.req_NO||''}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">状态</view>
+                            <view class="inputs">{{req.label||''}}</view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+              
+                <van-collapse-item title="处理信息" name="2" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">部门</view>
+                            <view class="inputs">{{req.department_name||''}}</view>
+                        </view>     
+                        <view class="li">
+                            <view class="label">类型</view>
+                            <view class="inputs">{{req.request_name||''}}</view>
+                        </view>  
+                        <view class="li">
+                            <view class="label">创建人</view>
+                            <view class="inputs">{{req.create_name||''}}</view>
+                        </view> 
+                        <view class="li">
+                            <view class="label">创建时间</view>
+                            <view class="inputs">{{req.create_time||''}}</view>
+                        </view> 
+                        <view class="li">
+                            <view class="label">内容</view>
+                            <view class="inputs">{{req.content||''}}</view>
+                        </view> 
+                        <view class="li">
+                            <view class="label">处理人</view>
+                            <view class="inputs">{{req.deal_user_name||''}}</view>
+                        </view> 
+                        <view class="li">
+                            <view class="label">处理结果</view>
+                            <view class="inputs">{{req.result||''}}</view>
+                        </view> 
+                    </view>
+                </van-collapse-item>
+
+                <van-collapse-item title="变更信息" name="3" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">变更单号</view>
+                            <view class="inputs">{{req.relevance_name||''}}</view>
+                        </view>     
+                    </view>
+                </van-collapse-item>
+               
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<view class="footbtn" id="footer">
+    <van-tabbar active="{{ activetabs }}" bind:change="onChangetabs">       
+<!--       
+        <van-tabbar-item icon="revoke">历史记录</van-tabbar-item>
+        <van-tabbar-item icon="close">删除</van-tabbar-item>
+         -->
+    </van-tabbar>
+</view>

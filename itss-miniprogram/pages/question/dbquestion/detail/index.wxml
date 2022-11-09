@@ -1,0 +1,177 @@
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{form.title}}</view>
+            <view class="jj" ><rich-text nodes="{{form.description}}"></rich-text></view>
+            <view class="jj" ><custom-content content="{{form.description}}" maxline="1" position="right" foldable="true"></custom-content></view>
+        </view>
+        <view class="box" >
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+              <van-collapse-item title="基础信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">编号</view>
+                            <view class="inputs">{{form.id}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">问题单号</view>
+                            <view class="inputs">{{ form.code }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="状态">状态</view>
+                            <view class="inputs">{{ form.status_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">当前操作人</view>
+                            <view class="inputs">{{ form.create_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">创建人</view>
+                            <view class="inputs">{{ form.create_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">创建时间</view>
+                            <view class="inputs">{{ form.create_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">期望解决时间</view>
+                            <view class="inputs">{{ form.hope_solve_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">来源</view>
+                            <view class="inputs">{{ form.source_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">优先级</view>
+                            <view class="inputs">{{ form.priority_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">问题类别</view>
+                            <view class="inputs">{{ form.category_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">解决分钟数</view>
+                            <view class="inputs">{{ (form.resolution_minutes==null || form.resolution_minutes==0) ? "0":form.resolution_minutes }}</view>
+                        </view>                      
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="鉴定信息" name="2" size="large" wx:if="{{form.appraisal_time!=null}}">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">鉴定人</view>
+                            <view class="inputs">{{ form.appraisal_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">鉴定时间</view>
+                            <view class="inputs">{{ form.appraisal_time== null? "":form.appraisal_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">鉴定意见</view>
+                            <view class="inputs"><rich-text nodes="{{form.appraisal_opinion}}"></rich-text></view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="处理信息" name="3" size="large"  wx:if="{{null!=form.handle_user_name&&undefined!=form.handle_user_name&&''!=form.handle_user_name}}">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">处理人</view>
+                            <view class="inputs">{{ form.handle_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">解决人</view>
+                            <view class="inputs">{{ form.solve_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">解决时间</view>
+                            <view class="inputs">{{ form.solve_time== null? "":form.solve_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">解决方案</view>
+                            <view class="inputs"><rich-text nodes="{{form.solve_content}}"></rich-text></view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+               
+                <van-collapse-item title="审核信息" name="4" size="large" wx:if="{{form.questionReviewers.size >0}}">
+                    <view class="cloumformbox" wx:for="{{form.questionReviewers}}" >
+                        <view class="li">
+                            <view class="label">审核人</view>
+                            <view class="inputs">{{ item.review_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">审核时间</view>
+                            <view class="inputs">{{ item.update_time== null? "":item.update_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">审核意见</view>
+                            <view class="inputs"><rich-text nodes="{{item.content}}"></rich-text></view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="关单" name="5" size="large" wx:if="{{null!=form.clearance_user_name&&undefined!=form.clearance_user_name&&''!=form.clearance_user_name}}">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">关单人</view>
+                            <view class="inputs">{{ form.clearance_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">关单时间</view>
+                            <view class="inputs">{{ form.clearance_time == null ? '' : form.clearance_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">已生成知识</view>
+                            <view class="inputs"> {{ form.is_knowledge == null ? '否' : form.is_knowledge == 1 ? '是' : '否' }}</view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+         
+                <van-collapse-item class="customtitle" title="时间信息" name="6" size="large">
+                    <van-row gutter="20">
+                        <van-col span="24">
+                            <van-steps steps="{{ steps }}" active="{{ stepsactive }}"  direction="vertical" active-color="#498ae6" />
+                        </van-col>
+                    </van-row>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<view class="footbtn" id="footer" >
+    <van-tabbar active="{{ activetabs }}" bind:change="onChangetabs">
+        <van-tabbar-item icon="edit" bindtap="remarksClick">备注</van-tabbar-item>
+        <van-tabbar-item icon="records" bindtap="commandClick" data-id="{{form.id}}" data-status="1"  wx:if="{{form.appraisal_user ==form.create_user && form.status === '1'}}">鉴定</van-tabbar-item>
+        <van-tabbar-item icon="records" bindtap="commandClick" data-id="{{form.id}}" data-status="2"  wx:if="{{form.audit_user == form.create_user && form.status == '3'}}">处理</van-tabbar-item>
+        <van-tabbar-item icon="records" bindtap="commandClick" data-id="{{form.id}}"  data-status="3"  wx:if="{{form.audit_user == form.create_user && form.status == '2'}}">审核</van-tabbar-item>
+        <van-tabbar-item icon="close" wx:if="{{form.audit_user == form.create_user&& this.form.status == '4'}}" data-id="{{form.id}}"  bindtap="gdBindtap">关单</van-tabbar-item>
+    </van-tabbar>
+</view>
+<!-- 备注 -->
+<van-dialog use-slot title="备注" show="{{ showdia }}" data-id="{{form.id}}" confirm-button-color="#1989fa" show-cancel-button bind:confirm="remarksQuestion" bind:close="onRemarksCloseClick">
+    <van-row gutter="20">
+        <van-col span="24">
+            <van-field value="{{shuoming}}" label="" type="textarea" bindinput='onshuoming' placeholder="请输入说明" autosize border="{{ false }}" />
+        </van-col>
+    </van-row>
+</van-dialog>
+<!-- 撤销 -->
+<van-dialog use-slot title="撤销" show="{{ showdiacx }}" data-id="{{form.id}}" confirm-button-color="#1989fa" show-cancel-button bind:confirm="revokeQuestion" bind:close="onRevokeClosedia">
+    <van-row gutter="20">
+        <van-col span="24">
+            <van-field value="{{shuomingcx}}" label="" type="textarea" bindinput='onshuomingcx' placeholder="请输入说明" autosize border="{{ false }}" />
+        </van-col>
+    </van-row>
+</van-dialog>
+<!-- 关单 -->
+<van-dialog id="van-dialog" />

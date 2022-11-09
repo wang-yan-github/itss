@@ -1,0 +1,69 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{publish.title}}</view>
+            <view class="jj"><rich-text nodes="{{publish.content}}"></rich-text></view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="工单信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label ">发布理由</view>
+                            <view class="label-des000" ><rich-text nodes="{{publish.reason}}"></rich-text></view>
+                        </view>
+                    </view>
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label ">发布方案</view>
+                            <view class="label-des000" ><rich-text nodes="{{publish.publish_plan}}"></rich-text></view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="评审信息" name="2" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label ">评审意见</view>
+                            <view class="inputs mr30">
+                                <van-field bindinput="opinion" type="text" value="" placeholder="请输入" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+    <van-picker columns="{{ columns }}" bind:change="onChangejieju" default-index="{{ 1 }}" title="选择解决方式" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+
+
+<view class="footbtn" id="footer">
+    <van-row custom-class="row-box">
+        <van-col span="8">
+            <van-button plain type="info" custom-style="width:90%;margin: 0 5%;border-radius:5px;" bindtap="onClosepopup">取消</van-button>
+        </van-col>
+        <van-col span="8">
+            <van-button type="danger" custom-style="width:90%;margin: 0 5%;border-radius:5px;" bindtap="getRefuse">拒绝</van-button>
+        </van-col>
+        <van-col span="8">
+            <van-button type="info" custom-style="width:90%;margin: 0 5%;border-radius:5px;" bindtap="getOpinion">确定</van-button>
+        </van-col>
+    </van-row>
+    
+</view>

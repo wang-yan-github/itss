@@ -1,0 +1,84 @@
+<!--index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <image src="../../img/logo.png" style="width:80px" mode="aspectFit"></image>
+        </view> 
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>    
+</view>
+<view class="bg">
+<image src="../../img/hbg.jpg" style="width:100%;" mode=""></image>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="userinfo"><view class="name">{{user.name}}</view></view>
+
+<view class="wrap">
+<view class="contWrap">
+  <view class="box" wx:if="{{authority.event}}">
+   <view class="h3" >事件</view>
+   <view class="card">
+      <view class="li" wx:if="{{authority.event_workbench}}" bindtap="goGzt"><view class="iconfont icon-gongzuotai"></view><view class="word">工作台</view></view>
+      <view class="li" wx:if="{{authority.event_manage}}" bindtap="goallthing"><view class="iconfont icon-weibiaoti4"></view><view class="word">全部事件</view></view>
+      <view class="li" wx:if="{{authority.event_selfhelp}}" bindtap="goauto"><view class="iconfont icon-fuwu"></view><view class="word">自助服务</view></view>
+   </view>
+</view>
+<view class="box" wx:if="{{authority.faq}}">
+   <view class="h3" >问题</view>
+   <view class="card">
+      <view class="li" wx:if="{{authority.faq_my}}" bindtap="goWdwt"><view class="iconfont icon-wenti-"></view><view class="word">我的问题</view></view>
+      <view class="li" wx:if="{{authority.faq_upcoming}}" bindtap="goWdwtdb"><view class="iconfont icon-daibanshixiang"></view><view class="word">问题待办</view></view>
+      <view class="li" wx:if="{{authority.faq_manage}}" bindtap="goWdwtgl"><view class="iconfont icon-wentijilu"></view><view class="word">问题管理</view></view>
+   </view>
+</view>
+<view class="box" wx:if="{{authority.change}}">
+   <view class="h3" >变更</view>
+   <view class="card">
+      <view class="li"  wx:if="{{authority.change_my}}" bindtap="mychanged"><view class="iconfont icon-custom-change"></view><view class="word">我的变更</view></view>
+      <view class="li"   wx:if="{{authority.change_upcoming}}" bindtap="dbchanged"><view class="iconfont icon-AboutChange-n"></view><view class="word">变更待办</view></view>
+      <view class="li"  wx:if="{{authority.change_manage}}" bindtap="glchanged"><view class="iconfont icon-jihuabiangengshenqing-140"></view><view class="word">变更管理</view></view>
+   </view>
+</view>
+<view class="box" wx:if="{{authority.publish}}">
+   <view class="h3"  >发布</view>
+   <view class="card">
+      <view class="li" wx:if="{{authority.publish_my}}" bindtap="goMyPublish"><view class="iconfont icon-fabujishu"></view><view class="word">我的发布</view></view>
+      <view class="li" wx:if="{{authority.publish_upcoming}}"  bindtap="goDbPublish"><view class="iconfont icon-daiban-wancheng-naozhong-03"></view><view class="word">发布待办</view></view>
+      <view class="li" wx:if="{{authority.publish_manage}}"  bindtap="goGlPublish"><view class="iconfont icon-fabushenpi-04"></view><view class="word">发布管理</view></view>
+   </view>
+</view>
+<view class="box" wx:if="{{authority.pzgl}}">
+   <view class="h3">配置</view>
+   <view class="card">
+      <view class="li" wx:if="{{authority.pzgl_overview}}" bindtap="overview"><view class="iconfont icon-xitongpeizhi2"></view><view class="word">概览</view></view>
+      <view class="li" wx:if="{{authority.pzgl_manage}}" bindtap="setManagement"><view class="iconfont icon-1peizhi"></view><view class="word">配置项管理</view></view>
+      <view class="li" wx:if="{{authority.pzgl_manage_inventory_select}}" bindtap="zcpandian"><view class="iconfont icon-gudingzichan"></view><view class="word">资产盘点管理</view></view>
+      <view class="li" wx:if="{{authority.pzgl_require}}" bindtap="setrequerymana"><view class="iconfont icon-wenjianjia"></view><view class="word">配置请求管理</view></view>
+      <view class="li" wx:if="{{authority.pzgl_myrequire}}" bindtap="mysetrequery"><view class="iconfont icon-peizhi-celvepeizhi"></view><view class="word">我的配置请求</view></view>
+      <view class="li" wx:if="{{authority.pzgl_upcoming}}" bindtap="agencyrequery"><view class="iconfont icon-canshupeizhi-mianxing"></view><view class="word">配置请求待办</view></view>
+   </view>
+</view>
+<view class="box" wx:if="{{authority.book}}" >
+   <view class="h3" >知识</view>
+   <view class="card">
+      <view class="li" wx:if="{{authority.book_my}}"  bindtap="myknowledge"><view class="iconfont icon-zhishiku"></view><view class="word">我的知识</view></view>
+      <view class="li" wx:if="{{authority.book_audit}}" bindtap="examineknowledge"><view class="iconfont icon-zhishikugongju"></view><view class="word">知识审核</view></view>
+      <view class="li" wx:if="{{authority.book_inner}}" bindtap="insideknowledge"><view class="iconfont icon-zhishichanquan"></view><view class="word">内部知识</view></view>
+      <view class="li" wx:if="{{authority.book_manage}}" bindtap="manageknowledge"><view class="iconfont icon-zhishizhongxin"></view><view class="word">知识管理</view></view>
+      <view class="li" wx:if="{{authority.book_search}}" bindtap="searchknowledge"><view class="iconfont icon-zonghesousuo"></view><view class="word">知识搜索</view></view>
+   </view>
+</view>
+
+<!-- <view class="box">
+   <view class="h3">登录页</view>
+   <view class="card">
+      <view class="li" bindtap="tologin"><view class="iconfont icon-zhishiku"></view><view class="word">临时按钮</view></view>
+   </view>
+</view> -->
+</view>
+
+</view>
+

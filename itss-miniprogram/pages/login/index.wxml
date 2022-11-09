@@ -1,0 +1,48 @@
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <text class="iconfont icon-fanhui"></text>
+        </view> 
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>    
+</view>
+<!--空白占位fixed空出的位置-->
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<!-- <view class="loginbg"><image width="100%" height="100%" mode="scaleToFill" src="../../img/loginbg.jpg" /></view> -->
+<view class="wrap loginbody">
+  
+   <view class="main-mod">
+       <view class="h2">您好！</view>
+       <view class="h3">欢迎登录IT服务管理平台</view>
+       <view class="form-main">
+            <view class="label-item">用户名：</view>
+            <view class="input-item">
+                <view class="form-icon iconfont icon-username"></view>
+                <input bindinput="userName" autocomplete="off" type="text" placeholder="请输入账号"  placeholder-style="color:#f2f2f2;" />
+                <!-- <view class="input-empty {{closed?'block':''}}" id="uiEmptyUsername" bindtap="clearData">
+                    <text class="iconfont icon-cuohaoyuan"></text>
+                </view> -->
+            </view>
+            <view class="label-item">密码：</view>
+            <view class="input-item password-item">
+                <view class="form-icon iconfont icon-password"></view>
+                <input autocomplete="off" password="{{password}}"  bindinput="password" placeholder="请输入密码" placeholder-style="color:#f2f2f2;" />
+                <!-- <view class="input-empty {{closed1?'block':''}}" bindtap="clearData1" id="uiEmptyPassword"><text class="iconfont icon-cuohaoyuan"></text></view> -->
+                <view class="input-showText"><text class="iconfont {{currentTab?'icon-yanjing_yincang':'icon-yanjing_xianshi'}}"  catchtap="bindEye"></text></view>
+            </view>
+            <view class="btn-item">
+                <!-- <van-button round type="info">默认按钮</van-button> -->
+				<button class="{{butStatus?'hidebtn btns':'btns'}}" id="uiSdkSubmit" type="button">登录</button>                
+				<button id="sdkSubmit" type="button" class="{{butStatus?'el-visible btns':'hidebtn btns'}}" bindtap="loginBtnClick" disabled="{{disabled}}">登录</button>
+			</view>
+       </view>
+       
+   </view>
+</view>
+<view class="footer">
+   <image src="../../img/logo.png" class="img" mode="aspectFit"></image>
+</view>
+

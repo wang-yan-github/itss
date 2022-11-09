@@ -1,0 +1,119 @@
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{publish.title}}</view>
+            <view class="jj label-des000"><rich-text nodes="{{publish.content}}"></rich-text></view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+
+                <van-collapse-item title="工单信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label ">发布理由</view>
+                            <view class="label-des000"><rich-text nodes="{{publish.reason}}"></rich-text></view>
+                        </view>
+                    </view>
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label ">发布方案</view>
+                            <view class="label-des000"><rich-text nodes="{{publish.publish_plan}}"></rich-text></view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="评审信息" name="2" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">评审人</view>
+                            <view class="inputs">{{publish.approver}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">评审意见</view>
+                            <view class="label-des000"><rich-text nodes="{{publish.approval_opinions}}"></rich-text></view>
+                        </view>
+                    
+                        <!-- <view class="li">
+                            <view class="label">附件</view>
+                            <view class="inputs heightauto mt15">
+                                <van-row gutter="20">
+                                    <van-col span="24">
+                                        <van-uploader file-list="{{ fileList }}" deletable="{{ false }}" show-upload="{{ false }}" />
+                                    </van-col>                                   
+                                </van-row>
+                            </view>
+                        </view> -->
+
+
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="测试信息" name="3" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">测试人</view>
+                            <view class="inputs">{{ publish.tester_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">测试结果</view>
+                            <view class="label-des000" ><rich-text nodes=" {{ publish.test_result == null ? '':publish.test_result }}"></rich-text></view>
+                          
+                           
+                        </view>
+                        <view class="li">
+                            <view class="label">测试时间</view>
+                            <view class="inputs">{{ publish.test_time == null ? "": publish.test_time }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">测试方案</view>
+                            <view class="label-des000"><rich-text nodes="{{ publish.test_plan }}"></rich-text></view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="发布信息" name="4" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">发布人</view>
+                            <view class="inputs">   {{ publish.publisher_name }}</view>
+                        </view>     
+                        <view class="li">
+                            <view class="label">发布时间</view>
+                            <view class="inputs">{{ publish.publish_time == null ? "":publish.publish_time }}</view>
+                        </view>  
+                        <view class="li">
+                            <view class="label">发布备注</view>
+                            <view class="label-des000"><rich-text nodes="{{ publish.remarks }}"></rich-text></view>
+                        </view> 
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item class="customtitle" title="进度信息" name="5" size="large">
+                    <van-row gutter="20">
+                        <van-col span="24">
+                            <van-steps steps="{{ steps }}" active="{{ stepsactive }}" direction="vertical" active-color="#498ae6" />
+                        </van-col>
+
+                    </van-row>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<!-- <view class="footbtn" id="footer">
+    <van-tabbar active="{{ activetabs }}" bind:change="onChangetabs">
+       
+        <van-tabbar-item icon="edit">备注</van-tabbar-item>
+        <van-tabbar-item icon="revoke">撤销</van-tabbar-item>
+        <van-tabbar-item icon="close">关单</van-tabbar-item>
+        
+    </van-tabbar>
+</view> -->

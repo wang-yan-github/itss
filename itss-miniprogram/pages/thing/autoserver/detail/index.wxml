@@ -1,0 +1,99 @@
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">资产编号</view>
+            <view class="jj">{{row.am_assets_number==null?"":row.am_assets_number}}</view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="盘点记录" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">配置项类型</view><view class="inputs">{{row.aty_name==null?"":row.aty_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">配置子类</view><view class="inputs">{{row.ac_name==null?"":row.ac_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">资产名称</view><view class="inputs">{{row.am_assets_name==null?"":row.am_assets_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">部门</view><view class="inputs">{{row.sd_name==null?"":row.sd_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">领用人</view><view class="inputs">{{row.su_name==null?"":row.su_name}}</view>
+                        </view>
+                        <!-- <view class="li">
+                            <view class="label">领用人编码</view><view class="inputs">{{row.su_id==null?"":row.su_id}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">财务编号</view><view class="inputs">{{row.finance_number==null?"":row.finance_number}}</view>
+                        </view> -->
+                        <view class="li">
+                            <view class="label">购置公司</view><view class="inputs">{{row.purchase_company==null?"":row.purchase_company}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">资产状态</view><view class="inputs">{{row.ast_status_name==null?"":row.ast_status_name}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">IT状态</view><view class="inputs">{{row.am_it_status == 1?"使用":"禁用"}}</view>
+                        </view>
+                        <!-- <view class="li">
+                            <view class="label">CPU</view><view class="inputs">{{row.cpu==null?"":row.cpu}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">内存</view><view class="inputs">{{row.memory==null?"":row.memory}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">硬盘</view><view class="inputs">{{row.hard_disk==null?"":row.hard_disk}}</view>
+                        </view> -->
+                        <!-- <view class="li">
+                            <view class="label">用途</view><view class="inputs">{{row.purpose==null?"":row.purpose}}</view>
+                        </view> -->
+                        <view class="li">
+                            <view class="label">序列号(SN号)</view><view class="inputs">{{row.sn==null?"":row.sn}}</view>
+                        </view>
+                        <!-- <view class="li">
+                            <view class="label">附件</view>
+                            <view class="inputs heightauto mt15">
+                                <van-row gutter="20">
+                                    <van-col span="24">
+                                        <van-uploader file-list="{{ fileList }}" deletable="{{ false }}" show-upload="{{ false }}" />
+                                    </van-col>                                   
+                                </van-row>
+                            </view>
+                        </view> -->
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="盘点记录确认" name="2" size="large">
+                    <view class="cloumformbox">
+                        <view class="li"><view class="label">所属盘点期</view><view class="inputs">{{row.ai_name==null?"":row.ai_name}}</view></view>
+                        <view class="li"><view class="label">确认人</view><view class="inputs">{{row.suc_name==null?"":row.suc_name}}</view></view>
+                        <view class="li"><view class="label">确认时间</view><view class="inputs">{{row.confirm_time==null?"":row.confirm_time}}</view></view>
+                        <view class="li"><view class="label">确认备注</view><view class="inputs">{{row.confirm_remark==null?"":row.confirm_remark}}</view></view>
+                        <view class="li"><view class="label">盘点状态</view><view class="inputs">确认无误</view></view>
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="盘点记录处理" name="3" size="large">
+                    <view class="cloumformbox">
+                        <view class="li"><view class="label">处理人</view><view class="inputs">{{row.suh_name==null?"":row.suh_name}}</view></view>
+                        <view class="li"><view class="label">处理时间</view><view class="inputs">{{row.suh_name?row.update_time:""}}</view></view>
+                        <view class="li"><view class="label">处理备注</view><view class="inputs">{{row.handle_result == null?"":row.handle_result}}</view></view>
+                    </view>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>

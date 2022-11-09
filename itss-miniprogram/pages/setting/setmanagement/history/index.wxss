@@ -1,0 +1,8 @@
+/* pages/setting/setmanagement/history/index.wxss */
+.navigation-title {
+  color: #000000
+}
+
+.navigation-container {
+  background: #fff;
+}

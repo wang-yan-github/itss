@@ -1,0 +1,123 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+    <!--空白来占位状态栏-->
+    <view style="{{'height: ' + statusBarHeight}}"></view>
+    <!--自定义导航栏-->
+    <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+        <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+            <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+        </view>
+        <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+    </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+    <view class="contWrap">
+        <view class="jianyao">
+            <view class="h2">{{form.title}}</view>
+            <view class="jj" ><custom-content content="{{form.description}}" maxline="1" position="right" foldable="true"></custom-content></view>
+        </view>
+        <view class="box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChange">
+                <van-collapse-item title="基础信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li">
+                            <view class="label">编号</view>
+                            <view class="inputs">{{ form.id }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">问题单号</view>
+                            <view class="inputs">{{ form.code }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">当前状态</view>
+                            <view class="inputs">{{ form.status_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">问题类别</view>
+                            <view class="inputs">{{ form.category_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">SLA</view>
+                            <view class="inputs">{{ form.sla_time==null?'':form.sla_time }}</view>
+                        </view>
+                        <view class="li" bindtap="wtlySelect">
+                            <view class="label star">问题来源</view>
+                            <view class="inputs sel">{{wtlyselectName}}</view>
+                        </view>
+                        <view class="li" bindtap="yxjSelect">
+                            <view class="label star">优先级</view>
+                            <view class="inputs sel">{{yxjselectName}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label star">标题</view>
+                            <view class="inputs mr30">
+                                <van-field type="input" value="{{form.title}}" placeholder="请输入标题" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">描述</view>
+                            <view class="inputs"><rich-text nodes="{{form.appraisal_opinion}}"></rich-text></view>
+                            <!-- <view class="inputs mr30 heightauto">
+                                <van-field type="textarea" autosize value="{{form.description}}" placeholder="请输入描述" border="{{ false }}" clearable />
+                            </view> -->
+                        </view>
+                        <view class="li">
+                            <view class="p">期望解决时间</view>
+                            <view class="em">
+                                <picker mode="date" value="{{startTime}}" start="2015-09-01" end="2023-09-01" bindchange="bindDateChange">
+                                    <view class="picker">{{startTime}}</view>
+                                </picker>
+                            </view>
+                        </view>
+                        <view class="li">
+                            <view class="label">创建人</view>
+                            <view class="inputs">{{ form.create_user_name }}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label">创建时间</view>
+                            <view class="inputs">{{ form.create_time }}</view>
+                        </view>
+                        <!-- <view class="li">
+                            <view class="label">附件上传</view>
+                            <view class="inputs mt15 heightauto">
+                                <van-uploader file-list="{{ fileList }}" />
+                            </view>
+                        </view> -->
+                    </view>
+                </van-collapse-item>
+                <van-collapse-item title="鉴定信息" name="1" size="large">
+                    <view class="cloumformbox">
+                        <view class="li" bindtap="clrSelect">
+                            <view class="label star">处理人</view>
+                            <view class="inputs sel">{{clrselectName}}</view>
+                        </view>
+                        <view class="li">
+                            <view class="label star">鉴定意见</view>
+                            <view class="inputs mr30 heightauto">
+                                <van-field type="textarea" autosize value=""  bindinput="opinionsClick"  placeholder="请输入描述" border="{{ false }}" clearable />
+                            </view>
+                        </view>
+                    </view>
+                </van-collapse-item>
+            </van-collapse>
+        </view>
+    </view>
+</view>
+<van-toast id="van-toast" />
+<!-- 问题来源 -->
+<van-popup show="{{wtlyshow}}" position="bottom">
+    <van-picker columns="{{ columnswtlys }}" bind:change="onChangejiejuwtly" default-index="{{ 1 }}" title="选择问题来源" show-toolbar bind:confirm="onConfirmwtly" bind:cancel="onCancelwtyl" />
+</van-popup>
+<!-- 优先级 -->
+<van-popup show="{{yxjshow}}" position="bottom">
+    <van-picker columns="{{ columnsyxj }}" bind:change="onChangejiejuyxj" default-index="{{ 1 }}" title="选择优先级" show-toolbar bind:confirm="onConfirmyxj" bind:cancel="onCancelyxj" />
+</van-popup>
+<!-- 处理人 -->
+<van-popup show="{{clrshow}}" position="bottom">
+    <van-picker columns="{{ columnclr }}" bind:change="onChangejiejuclr" default-index="{{ 1 }}" title="选择优先级" show-toolbar bind:confirm="onConfirmclr" bind:cancel="onCancelclr" />
+</van-popup>
+<view class="footbtn" id="footer">
+    <van-button type="info"  custom-style="width:300rpx;margin-left:0px;border-radius:5px;"  data-status="1"  bindtap="saveClick">通过</van-button>
+    <van-button plain type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;"  data-status="2"  bindtap="saveClick">拒绝</van-button>
+</view>

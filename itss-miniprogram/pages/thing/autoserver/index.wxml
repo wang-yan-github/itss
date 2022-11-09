@@ -1,0 +1,311 @@
+<!--pages/thing/working/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+  <!--空白来占位状态栏-->
+  <view style="{{'height: ' + statusBarHeight}}"></view>
+  <!--自定义导航栏-->
+  <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+    <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+      <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+    </view>
+    <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+  </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="tabs-panel" style="{{'top:' + navigationBarAndStatusBarHeight}}" id="tabs">
+  <view class="li {{selected?'active':''}}" bindtap="changtab1">我的工单</view>
+  <view class="li {{selected1?'active':''}}" bindtap="changtab2">资产盘点</view>
+</view>
+<view class="search-fix {{selected?'active':''}}" style="{{'top:' + topHeight + 'px'}}" id="searchs">
+  <view class="search-bar">
+    <view class="search-bar__form">
+      <!-- 搜索框 我的工单-->
+      <view class="search-bar__box" wx:if="{{listType == '1'}}">
+        <icon class="icon-search_in-box" type="search" size="14" data-type="1" bindtap='eventSearch'></icon>
+        <input type="text" class="search-bar__input" placeholder="关键字搜索" bindinput='onkeyword2' value="{{ keyword }}" data-params="keyword" data-type="1" bindconfirm="eventSearch"></input>
+      </view>
+    </view>
+    <!-- 搜索按钮,调用搜索查询方法 -->
+    <!-- <view class="search-bar__cancel-btn" bindtap='sses'>搜索</view> -->
+
+    <!-- 搜索按钮,调用搜索查询方法 -->
+    <view class="search-bar__cancel-btn" bindtap='showPopup'>
+      <view class="iconfont icon-shaixuan"></view> 筛选
+    </view>
+  </view>
+</view>
+
+<view class="search-fix {{selected1?'active':''}}" style="{{'top:' + topHeight + 'px'}}">
+  <view class="search-bar">
+
+    <view class="search-bar__form">
+      <!-- 搜索框 资产盘点-->
+      <view class="search-bar__box">
+        <icon class="icon-search_in-box" type="search" size="14" data-type="1" bindtap='eventSearch'></icon>
+        <input type="text" class="search-bar__input" placeholder="关键字搜索" bindinput='onkeyword2' value="{{ keyword2 }}" data-params="keyword2" data-type="1" bindconfirm="eventSearch"></input>
+      </view>
+    </view>
+
+    <!-- 搜索按钮,调用搜索查询方法 -->
+    <view class="search-bar__cancel-btn" bindtap='showPopup'>
+      <view class="iconfont icon-shaixuan"></view> 筛选
+    </view>
+  </view>
+</view>
+
+
+<view class="wrap" style="{{'padding-top:' + searchHeight + 'px;height:(100% - ' + searchHeight + 'px);height:101vh'}}">
+  <view class="contWrap container">
+
+    <!-- 我的工单 -->
+    <view class="tabs-content {{selected?'active':''}}">
+      <view class="list" wx:for="{{list}}" wx:key="item" data-id="{{item.id}}">
+        <view class="li">
+          <view class="row1">
+            <view class="ordernum">
+              <text class="iconfont icon-gongdan"></text><text class="words">{{item.title?item.title:''}}
+              </text>
+            </view>
+            <view class="state green">
+              <!-- <van-tag plain type="success">{{item.statusName?item.statusName:''}}</van-tag> -->
+            </view>
+          </view>
+          <view class="row2">
+            <view class="item-row">
+              <text class="p1">工单类别：</text>
+              <text class="p2">{{item.category_name?item.category_name:''}}</text>
+            </view>
+            <view class="item-row">
+              <text class="p1">开单时间：</text>
+              <text class="p2">{{item.create_time?item.create_time:''}}</text>
+            </view>
+            <view class="item-row">
+              <text class="p1">解决时间：</text>
+              <text class="p2">{{item.ex_solve_time?item.ex_solve_time:''}}</text>
+            </view>
+          </view>
+          <view class="row4">
+            <van-button plain round type="info" size="small" bindtap="eventView" data-id="{{item.id}}">详情</van-button>
+            <van-button plain round type="warning" size="small" data-id="{{item.id}}" data-state="{{item.status}}" bindtap="showaction">更多操作</van-button>
+          </view>
+        </view>
+      </view>
+      <van-empty description="暂无信息" wx:if="{{showView}}" />
+
+      <view class="footline" wx:if="{{showViewDb}}">
+        <view class="p">已经到底了~</view>
+      </view>
+    </view>
+
+    <!-- 资产盘点 -->
+    <view class="tabs-content {{selected1?'active':''}}">
+      <view class="list" wx:for="{{list}}" wx:key="item" data-id="{{item.id}}">
+        <view class="li">
+          <view class="row1">
+            <view class="ordernum">
+              <text class="iconfont icon-gongdan"></text><text class="words">{{item.ai_name?item.ai_name:''}}
+              </text>
+            </view>
+            <view class="state green">
+              <!-- <van-tag plain type="success">{{item.ast_status_name?item.ast_status_name:''}}</van-tag> -->
+            </view>
+          </view>
+          <view class="row2">
+            <view class="item-row">
+              <text class="p1">资产名称：</text>
+              <text class="p2">{{item.am_assets_name?item.am_assets_name:''}}</text>
+            </view>
+            <view class="item-row">
+              <text class="p1">部门：</text>
+              <text class="p2">{{item.sd_name?item.sd_name:''}}</text>
+            </view>
+            <view class="item-row">
+              <text class="p1">领用人：</text>
+              <text class="p2">{{item.su_name?item.su_name:''}}</text>
+            </view>
+          </view>
+          <view class="row4">
+            <van-button plain round type="info" size="small" data-id="{{item.id}}" bindtap="chuli">查看</van-button>
+            <van-button plain round type="warning" size="small" wx:if="{{!item.suc_name && authority.pzgl_manage_inventory_sure}}" data-id="{{item.id}}" data-qruser="{{item.suc_name}}" bindtap="confirmpd">确认</van-button>
+            <van-button plain round type="warning" size="small" wx:elif="{{!item.suh_name && authority.pzgl_manage_inventory_deal}}" data-id="{{item.id}}" data-qruser="{{item.suc_name}}" bindtap="confirmpd1">处理</van-button>
+          </view>
+        </view>
+      </view>
+
+      <van-empty description="暂无信息" wx:if="{{showView}}" />
+
+      <view class="footline" wx:if="{{showViewDb}}">
+        <view class="p">已经到底了~</view>
+      </view>
+    </view>
+  </view>
+</view>
+<van-action-sheet show="{{ show }}" actions="{{ actions }}" cancel-text="取消" bind:close="onClose" bind:cancel="onClose" bind:select="onSelect" />
+<van-dialog use-slot title="重开" show="{{ showdia }}" confirm-button-color="#1989fa" show-cancel-button data-id="{{rowId}}" bind:confirm="getUserInfo" bind:close="onClosedia">
+  <van-row gutter="20">
+    <van-col span="24">
+      <van-field value="{{shuoming}}" label="" type="textarea" placeholder="请输入说明" autosize border="{{ false }}" bind:change='onkeyword' data-params="shuoming" />
+    </van-col>
+  </van-row>
+</van-dialog>
+<van-dialog use-slot title="备注" show="{{ showdia1 }}" confirm-button-color="#1989fa" show-cancel-button data-id="{{rowId}}" bind:confirm="getUserInfo1" bind:close="onClosedia1">
+  <van-row gutter="20">
+    <van-col span="24">
+      <van-field value="{{shuoming}}" label="" type="textarea" placeholder="请输入说明" autosize border="{{ false }}" bind:change='onkeyword' data-params="shuoming" />
+    </van-col>
+  </van-row>
+</van-dialog>
+<van-dialog use-slot title="撤销" show="{{ showdia2 }}" confirm-button-color="#1989fa" show-cancel-button data-id="{{rowId}}" bind:confirm="getUserInfo2" bind:close="onClosedia2">
+  <van-row gutter="20">
+    <van-col span="24">
+      <van-field value="{{shuoming}}" label="" type="textarea" placeholder="请输入说明" autosize border="{{ false }}" bind:change='onkeyword' data-params="shuoming" />
+    </van-col>
+  </van-row>
+</van-dialog>
+<van-dialog use-slot title="确认评价" show="{{ showdia3 }}" confirm-button-color="#1989fa" show-cancel-button data-id="{{rowId}}" bind:confirm="getUserInfo3" bind:close="onClosedia3">
+  <van-row gutter="20">
+    <van-col span="24">
+      <van-rate value="{{shuoming}}" size="{{ 25 }}" color="#ffd21e" void-icon="star" void-color="#eee" bind:change='onkeyword' data-params="shuoming" />
+      <!-- <van-field value="{{shuoming}}" label="" type="textarea" placeholder="请输入说明" autosize border="{{ false }}" /> -->
+    </van-col>
+  </van-row>
+</van-dialog>
+
+<van-dialog id="van-dialog" />
+<van-dialog use-slot title="资产盘点确认" show="{{ showdia4 }}" confirm-button-color="#1989fa" show-cancel-button bind:confirm="getUserInfo4" bind:cancel="onPdQryw" bind:close="onClosedia4" cancel-button-text="确认有误" confirm-button-text="确认无误" close-on-click-overlay="false">
+  <van-row gutter="20">
+    <van-col span="24">
+      <van-field value="{{shuoming}}" label="" type="textarea" placeholder="请输入说明" autosize border="{{ false }}" bind:change='onkeyword' data-params="shuoming" />
+    </van-col>
+  </van-row>
+</van-dialog>
+
+<van-dialog use-slot title="资产盘点处理" show="{{ showdia5 }}" confirm-button-color="#1989fa" show-cancel-button data-id="{{rowId}}" bind:confirm="getUserInfo5" bind:close="onClosedia5">
+  <van-row gutter="20">
+    <van-col span="24">
+      <van-field value="{{shuoming}}" label="" type="textarea" placeholder="请输入处理备注" autosize border="{{ false }}" bind:change='onkeyword' data-params="shuoming" />
+    </van-col>
+  </van-row>
+</van-dialog>
+
+<!-- 筛选弹窗 -->
+<van-popup show="{{ showselect }}" position="bottom" round custom-style="height: 80%;" bind:close="onClosepopup" closeable>
+  <view class="popupclose">
+    <view class="h3">筛选条件</view>
+    <!-- <van-icon name="cross" size="20" color="black" bindtap="onClosepopup" /> -->
+  </view>
+  <view class="popcontent">
+    <view class="popwrap">
+      <!-- 我的工单筛选条件 -->
+      <view class="popmain" wx:if="{{selected}}">
+        <!-- <van-cell-group>
+          <van-field value="" label="编号" placeholder="请输入编号" input-align="right" />
+        </van-cell-group> -->
+        <view class="formbox">
+          <view class="li">
+            <view class="p">开单时间(Start)</view>
+            <view class="em">
+              <picker mode="date" value="{{startTime}}" bindchange="bindDateChange" bindcancel="bindDateCancel">
+                <view class="picker">{{startTime}}</view>
+              </picker>
+            </view>
+          </view>
+          <view class="li">
+            <view class="p">开单时间(End)</view>
+            <view class="em">
+              <picker mode="date" value="{{endTime}}" bindchange="bindDateChange2" bindcancel="bindDateCancel2">
+                <view class="picker">{{endTime}}</view>
+              </picker>
+            </view>
+          </view>
+          <view class="li">
+            <view class="p">请求类型</view>
+            <view class="em" bindtap="showRequestTypes">{{requestType}}</view>
+          </view>
+          <view class="li">
+            <view class="p">状态</view>
+            <view class="em" bindtap="showStatus">{{status}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 资产盘点筛选条件 -->
+      <view class="popmain" wx:if="{{selected1}}">
+        <!-- <van-cell-group>
+          <van-field value="{{am_assets_number}}" bind:change="inputEvent" label="资产编号" placeholder="请输入资产编号" input-align="right" />
+        </van-cell-group> -->
+        <view class="formbox">
+          <view class="li">
+            <view class="p">盘点期</view>
+            <view class="em" bindtap="showPdq">{{pdqName}}</view>
+          </view>
+          <view class="li">
+            <view class="p">配置项类型</view>
+            <view class="em" bindtap="showAssetsType">{{assetsTypeName}}</view>
+          </view>
+          <view class="li">
+            <view class="p">配置子类</view>
+            <view class="em" bindtap="showChildAsset">{{childTypeName}}</view>
+          </view>
+          <view class="li">
+            <view class="p">盘点状态</view>
+            <view class="em" bindtap="showPdStatus">{{pdStatusName}}</view>
+          </view>
+          <view class="li">
+            <view class="p">处理状态</view>
+            <view class="em" bindtap="showHandleStatus">{{handleStatusName}}</view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+  <view class="footbtn">
+    <van-button plain type="info" custom-style="width:300rpx;border-radius:5px;" bindtap="onClosepopup">取消</van-button>
+    <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" data-type="2" bindtap='eventSearch'>确定</van-button>
+  </view>
+  <!-- 请求类型 -->
+  <van-action-sheet show="{{ showRequestType }}" actions="{{ requestTypeList }}" cancel-text="取消" bind:close="onCloseRequestType" bind:cancel="onCancelRequestType" bind:select="onSelectRequestType" />
+  <!-- 状态 -->
+  <van-action-sheet show="{{ showState }}" actions="{{ statusList }}" cancel-text="取消" bind:close="onCloseStatus" bind:cancel="onCancelStatus" bind:select="onSelectStatus" />
+  <!-- 盘点期 -->
+  <van-action-sheet show="{{ isShowPdq }}" actions="{{ panDianQiArr }}" cancel-text="取消" bind:close="onClosePdq" bind:cancel="onCancelPdq" bind:select="onSelectPdq" />
+  <!-- 配置项类型 -->
+  <van-action-sheet show="{{ isShowAssetsType }}" actions="{{ assetsTypes }}" cancel-text="取消" bind:close="onCloseAssetsType" bind:cancel="onCancelAssetsType" bind:select="onSelectAssetsType" />
+  <!-- 配置子类 -->
+  <van-action-sheet show="{{ isShowChildAsset }}" actions="{{ assetsChildren }}" cancel-text="取消" bind:close="onCloseChildAsset" bind:cancel="onCancelChildAsset" bind:select="onSelectChildAsset" />
+  <!-- 盘点状态 -->
+  <van-action-sheet show="{{ isShowPdStatus }}" actions="{{ pdStatusList }}" cancel-text="取消" bind:close="onClosePdStatus" bind:cancel="onCancelPdStatus"  bind:select="onSelectPdStatus" />
+  <!-- 处理状态 -->
+  <van-action-sheet show="{{ isShowHandleStatus }}" actions="{{ handleStatusList }}" cancel-text="取消" bind:close="onCloseHandleStatus" bind:cancel="onCancelHandleStatus" bind:select="onSelectHandleStatus" />
+
+  <van-popup show="{{ showselect1 }}" round closeable position="bottom" custom-style="height: 70%" bind:cancel="onClosepopup1">
+    <view class="popupclose">
+      <view class="h3">用户选择</view>
+      <!-- <van-icon name="cross" size="20" color="black" bindtap="onClosepopup" /> -->
+    </view>
+    <view class="popcontent">
+      <view class="popwrap">
+        <view class="popmain">
+          <van-index-bar index-list="{{ indexList }}" use-slot="{{true}}">
+            <view wx:for="{{customerList}}" wx:key="index">
+              <van-index-anchor index="{{item.firstLetter}}">
+                {{item.firstLetter}}组
+              </van-index-anchor>
+              <van-cell wx:for="{{item.list}}" wx:key="index" data-id="{{item.code}}" data-name="{{item.name}}" title="{{item.name}}" bindtap="getCustomer" />
+            </view>
+          </van-index-bar>
+
+        </view>
+      </view>
+    </view>
+    <view class="footbtn">
+      <van-button plain type="info" custom-style="width:300rpx;border-radius:5px;" bindtap="onClosepopup1">取消</van-button>
+      <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" bindtap="onClosepopup1">确定</van-button>
+    </view>
+  </van-popup>
+</van-popup>
+
+
+<view class="footbtn {{selected?'':'hide'}}" id="footerid">
+  <van-button icon="plus" type="info" wx:if="authority.event_self_kaidan" custom-style="width:600rpx;margin-left:0px;border-radius:5px;" bindtap="addgd">我要开单</van-button>
+</view>
