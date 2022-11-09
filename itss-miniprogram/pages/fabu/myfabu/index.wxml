@@ -158,6 +158,6 @@
 </van-popup>
 
 
-<!-- <view class="footbtn {{selected?'':'hide'}}" id="footerid">
+<view class="footbtn {{selected?'':'hide'}}" id="footerid">
   <van-button icon="plus" type="info" wx:if="authority.event_self_kaidan" custom-style="width:600rpx;margin-left:0px;border-radius:5px;" bindtap="addPublish">我要发布</van-button>
-</view> -->
+</view>

@@ -16,7 +16,7 @@ Page({
         menuButtonHeight: wx.getStorageSync('menuButtonHeight') + 'px',
         // 导航栏和状态栏高度
         navigationBarAndStatusBarHeight: wx.getStorageSync('statusBarHeight') + wx.getStorageSync('navigationBarHeight') + 'px',
-        title: '资产盘点配置项',
+        title: '添加关联的工单',
         selected: true,
         selected1: false,
         selected2: false,
@@ -27,13 +27,18 @@ Page({
         scrollTop: 0,
         chulichecked: false,
         list: [],
+        first_ids: [],
         pageIndex:1,
         pageSize: 10,
-        first_id: '',
+        first_id: [],
+        first_value: [],
         queryForm: {
-          title:''
+          title:'',
+          keyword: '',
         },
-        oneData:{}
+        oneData:{},
+        totalPage: 0,
+        pages: '',
     },
     
     //选中状态切换	
@@ -64,25 +69,50 @@ Page({
     },
     itemonchange(event) {
         var that = this;
-        console.log("选中状态切换-itemonchange:",event.currentTarget.dataset)
         let row = event.currentTarget.dataset.ischecked;
-         // 给确定的参数赋值
-        if(that.data.first_id == row.id){
-          this.setData({            
-            checkedId: '',
-            checkedName: '',
-          });
-        }else{
-          this.setData({            
-            checkedId: row.id,
-            checkedName: row.assets_number,
-          });
+        console.log(row);
+        let first_ids = that.data.first_ids;
+        let first_value = that.data.first_value;
+        //判断checked是否为undefined，如果为undefined，则默认为false，否则为true
+
+        //判断first_ids是否包含Id
+        var count = 0 ;
+        var index = -1;
+        for(var i=0 ; i < first_ids.length ; i++){
+            if(first_ids[i] == row.id){
+                count++;
+                index = i;
+            }
         }
-        that.data.first_id = row.id;
-        let first_id = row.id;
-        this.setData({            
-          first_id: first_id,
-        });
+        if(count > 0){
+            first_ids.splice(index,1);
+            first_value.splice(index,1);
+
+        }else{
+            first_ids.push(row.id);
+            first_value.push(row);
+        }
+        that.setData({
+            first_ids: first_ids,
+            first_value: first_value,
+        })
+        console.log(this.data.first_ids);
+        console.log(this.data.first_value);
+
+
+
+
+        // if (first_ids.findIndex(o => o == row.id) != -1) {
+        //     first_ids.splice(first_ids.findIndex(o => o == row.id), 1);
+        //     that.setData({
+        //         first_ids: first_ids,
+        //     })
+        // } else {
+        //     first_ids.push(row.id)
+        //     that.setData({
+        //         first_ids: first_ids,
+        //     })
+        // }
        
         
     },
@@ -101,9 +131,9 @@ Page({
     },
     
     chuli: function (e) {
-        // wx.navigateTo({
-        //     url: 'detail/index',
-        // })
+        wx.navigateTo({
+            url: 'detail/index',
+        })
     },
     // getHeight:function(){
     //     //创建节点选择器
@@ -243,18 +273,13 @@ Page({
 
     },
     inputedit(e){
-      this.setData({
-        'queryForm.title': e.detail.value
-      })
+      this.data.queryForm.keyword = e.detail.value;
+    //   this.setData({
+    //     'queryForm.title': e.detail.value
+    //   })
     },
     // 默认-关键字搜索
     publishSearch: function (e) {
-      var that = this;
-      that.data.queryForm.title = e.detail.value;
-      console.log("关键字搜索",that.data.queryForm.title)
-      // this.setData({
-      //   showselect: false
-      // });
       this.page();
     },
 
@@ -263,55 +288,67 @@ Page({
       var that = this;
       let params = {
         "pageIndex": 1,
-        "assets_name": that.data.queryForm.title == undefined?"":that.data.queryForm.title,
         "pageSize": that.data.pageSize == undefined ? 10 : that.data.pageSize*that.data.pageIndex,
         "userId": wx.getStorageSync('userInfo').id,
+        "service_groups_type": '1',
+        "status": '4,5,6',
+        "title": that.data.queryForm.keyword,
       };
       console.log("that.data.pageIndex: " , that.data.pageIndex)
       console.log("配置项list查询: ", params)
       wx.request({
-        url: app.globalData.address + 'assetsManage/toList.do',
+        url: app.globalData.address + 'question/eventList.do',
         method: 'POST',
         header: {
-          "Authorization": wx.getStorageSync('tokenValue'),
-          "Content-Type": "application/x-www-form-urlencoded"
+            "Authorization": wx.getStorageSync('tokenValue'),
+            "Content-Type": "application/json"
         },
         data: params,
         success: function (res) {
           console.log("配置项list查询:", res)
-          that.setData({
-            list: res.data.data.list,
-            pageIndex: res.data.data.pageNum,
-            pageSize: res.data.data.pageSize,
-            totalPage: res.data.data.total,
-            pages: res.data.data.pages,
-            // queryForm: {}
-          })
-          if (res.data.data.total < res.data.data.pageSize) {
-            that.setData({
-              showView: true
-            })
+
+          if (res.data.code == 0) {
+            if (res.data.data.list.length == 0) {
+              that.setData({
+                list: [],
+                totalPage: 0,
+              })
+            } else {
+              that.setData({
+                list: res.data.data.list,
+                pageIndex: res.data.data.pageNum,
+                pageSize: res.data.data.pageSize,
+                totalPage: res.data.data.total,
+                pages: res.data.data.pages,
+              
+              })
+            }
           } else {
-            that.setData({
-              showView: false
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'none',
+              duration: 2000
             })
           }
-          // that.data.queryForm = {};
-          that.data.keyword = '';
+          //结束刷新
+          if (val == 2) {
+            wx.stopPullDownRefresh();
+          }
         }
       })
     },
     onClosepopup: function (val) {
       console.log("确定操作:", val)
-      // wx.setStorageSync('pzxData', val.currentTarget.dataset)
-      var pages = getCurrentPages();
-      // 上一个编辑页面
-      var prevPage = pages[pages.length - 2];
-      // 直接低啊用上一个页面的setData(),把数据存到上个页面既编辑款项页面中去
-      prevPage.setData({
-        pzx: val.currentTarget.dataset.name,
-        pzxData: val.currentTarget.dataset
-      })
+      wx.setStorageSync('changeList', this.data.first_value);
+      console.log(wx.getStorageSync('changeList'))
+    //   var pages = getCurrentPages();
+    //   // 上一个编辑页面
+    //   var prevPage = pages[pages.length - 2];
+    //   // 直接低啊用上一个页面的setData(),把数据存到上个页面既编辑款项页面中去
+    //   prevPage.setData({
+    //     pzx: val.currentTarget.dataset.name,
+    //     pzxData: val.currentTarget.dataset
+    //   })
       this.backTo();
     }
 })

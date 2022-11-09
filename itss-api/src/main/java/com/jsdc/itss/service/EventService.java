@@ -701,7 +701,7 @@ public class EventService extends BaseService<EventDao, Event> {
         // 根据用户id得到服务群组
         List<Integer> serviceGroups = new ArrayList<>();
         try {
-            serviceGroups = eventBillingDesignateService.getServiceIdByCurrentUser();
+            serviceGroups = eventBillingDesignateService.getServiceIdByCurrentUser(event.getUserId());
             // 如果找不到服务群组，就返回空集合
             if (CollectionUtils.isEmpty(serviceGroups)) {
                 serviceGroups.add(-1);

@@ -27,6 +27,8 @@ public class QuestionController {
     @Autowired
     private SysDictService sysDictService;
     @Autowired
+    private EventService eventService;
+    @Autowired
     private QuestionManageService questionManageService;
     @Autowired
     private QuestionSourceService questionSourceService;
@@ -368,5 +370,18 @@ public class QuestionController {
     public ResultInfo selectByDictTypeList(@RequestBody SysDict sysDict) {
         List<SysDict> sysDictList = sysDictService.getDicts(sysDict.getDict_type());
         return ResultInfo.success(sysDictList);
+    }
+
+    /**
+     * 添加关联的工单 列表
+     */
+    @RequestMapping(value = "eventList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo toList(@RequestParam(defaultValue = "1", value = "pageNo") Integer pageIndex,
+                             @RequestParam(defaultValue = "10") Integer pageSize,
+                             @RequestBody Event event) {
+
+        PageInfo<Event> page = eventService.toList(pageIndex, pageSize, event);
+        return ResultInfo.success(page);
     }
 }

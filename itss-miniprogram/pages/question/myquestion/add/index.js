@@ -34,6 +34,7 @@ Page({
     topHeight: 0,
     activeNames: ['1', '2'],
     fileList: [],
+    changeList: [],
     formData: {
       "source_id": -1, //来源id
       "priority_id": -1, //优先级id
@@ -60,10 +61,15 @@ Page({
       wtlbShow: true,
     });
   },
-  jjsjBindtap() { //解决时间 点击选择器触发
+  jjsjBindtap() { //解决时间 点击时间选择触发
     this.setData({
       jjsjShow: true,
     });
+  },
+  eventBindtap(){//关联工单 点击触发
+    wx.navigateTo({
+      url: 'seleserve/index',
+    })
   },
   wtlyOnConfirm(event) { //问题来源 点击完成按钮时触发
     const {
@@ -139,6 +145,10 @@ Page({
     this.slaQuestionFirstList();
     //问题类别
     this.getParentList();
+    //关联工单
+    this.setData({
+        changeList: wx.getStorageSync('changeList'),
+    })
   },
 
   /**
@@ -284,6 +294,8 @@ Page({
 
     //是否通知
     that.is_notice = this.checked ? 1 : 0
+    //关联工单
+    that.events = that.data.changeList
 
     var param = JSON.stringify(questionData)
     console.log(param)
@@ -383,6 +395,10 @@ Page({
     console.log(e);
   },
   backTo() {
+    this.setData({
+      changeList: [],
+    })
+    wx.setStorageSync('changeList', this.data.changeList);
     wx.navigateBack({
       delta: 0,
     })
@@ -397,7 +413,7 @@ Page({
       checked: event.detail,
     });
   },
-  //日期格式转字符窜
+  //日期格式转字符串
   dataToStr(selData) {
     let selDataArr = new Date(selData).toLocaleDateString().split("/")
     let strArr = selDataArr.map(function (value) {

@@ -29,8 +29,14 @@ public class EventBillingDesignateService extends BaseService<EventBillingDesign
      *
      * @return
      */
-    public List<Integer> getServiceIdByCurrentUser() {
-        SysUser sysUser = sysUserService.getUser();
+    public List<Integer> getServiceIdByCurrentUser(Integer ...intArray) {
+        //获取用户信息
+        SysUser sysUser = null;
+        if (intArray.length > 0) {
+            sysUser = sysUserService.selectById(intArray[0]);
+        } else {
+            sysUser = sysUserService.getUser();
+        }
         List<Integer> userGroups = new ArrayList<>();
         QueryWrapper<EventBillingDesignate> queryWrapper3 = new QueryWrapper<>();
         queryWrapper3.eq("engineer_userid", sysUser.getId());

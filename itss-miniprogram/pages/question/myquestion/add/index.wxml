@@ -41,29 +41,29 @@
                 <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangedata' value="{{ formData.description }}" data-params="description" />
               </view>
             </view>
-            <view class="li" bindtap="choosed1">
-              <view class="label relation-label">关联的工单</view>
-              <view class="inputs sel" wx:for="{{changeList}}" wx:key="item" data-id="{{item.id}}">{{item.title}} </view>
-            </view>
-            <view class="li">
+            <!-- <view class="li">
               <view class="label">附件上传</view>
               <view class="inputs mt15 heightauto">
                 <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="picDel" bind:click-preview="picView" max-count="3" />
               </view>
-            </view>
+            </view> -->
             <view class="li" bindtap="jjsjBindtap">
               <view class="label">期望解决时间</view>
               <view class="inputs sel">{{jjsjValue}}</view>
             </view>
           </view>
         </van-collapse-item>
-        <van-collapse-item title="鉴定通知" name="2" size="large">
-          <view class="cloumformbox">
+        <van-collapse-item title="关联的工单" name="2" size="large">
+          <view class="li" bindtap="eventBindtap">
+              <view class="label">关联的工单</view>
+              <view class="inputs sel" wx:for="{{changeList}}" wx:key="item" data-id="{{item.id}}">{{item.title}} </view>
+            </view>
+          <!-- <view class="cloumformbox">
             <view class="li">
               <van-checkbox value="{{ checked }}" shape="square" bind:change="onChangeChecked">是否通知
               </van-checkbox>
             </view>
-          </view>
+          </view> -->
         </van-collapse-item>
       </van-collapse>
     </view>

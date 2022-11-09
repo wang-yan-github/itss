@@ -13,6 +13,7 @@
     "pages/question/dbquestion/zhuandan/index",
     "pages/question/myquestion/detail/index",
     "pages/question/myquestion/add/index",
+    "pages/question/myquestion/add/seleserve/index",
     "pages/question/myquestion/index",
     "pages/thing/autoserver/add/index",     
     "pages/thing/autoserver/add/seleserve/index",     
