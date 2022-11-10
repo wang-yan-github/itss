@@ -105,6 +105,7 @@
             this.isDisable = true;
             const { msg } = await savePeriod(this.form)
             this.$baseMessage(msg, 'success')
+            this.isDisable = false;
             this.$emit('fetch-data')
             this.close()
           } else {

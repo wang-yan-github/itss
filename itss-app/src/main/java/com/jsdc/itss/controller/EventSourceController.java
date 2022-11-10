@@ -146,22 +146,6 @@ public class EventSourceController {
 
 
     /**
-     * 新增开单接口
-     * Author wzn
-     * Date 2022/3/14 11:16
-     */
-    @RequestMapping(value = "addEvent", method = RequestMethod.POST)
-    @ResponseBody
-    public ResultInfo addEvent(@RequestParam String body, @RequestParam List<MultipartFile> file, @RequestParam List<MultipartFile> file1) {
-        EventVo eventVo = JSON.parseObject(body, EventVo.class);
-        if (Base.notEmpty(eventVo)) {
-            return eventService.addEvent(eventVo, file, file1);
-        } else {
-            return ResultInfo.error("请填写必填信息！！！");
-        }
-    }
-
-    /**
      * 关联的配置项
      *
      * @param pageNo

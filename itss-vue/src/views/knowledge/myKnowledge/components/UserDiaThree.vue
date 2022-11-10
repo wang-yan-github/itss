@@ -9,7 +9,7 @@
     <el-input
      placeholder="输入关键字进行过滤"
      v-model="queryForm"
-      @change="getName">
+     >
 </el-input>
 <div class="treeborder"><el-tree
   class="filter-tree"
@@ -33,10 +33,11 @@
   export default {
     name: 'diaOne',
     watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val);
-      }
+      queryForm(val) {
+        this.$refs.tree.filter(val)
+      },
     },
+
     data() {
       return {
         row:{},
@@ -72,7 +73,7 @@
       },
       filterNode(value, data) {
         if (!value) return true;
-        return data.label.indexOf(value) !== -1;
+        return data.name.indexOf(value) !== -1;
       },
       close() {
         // this.$refs['form'].resetFields()

@@ -377,7 +377,7 @@ public class QuestionController {
      */
     @RequestMapping(value = "eventList.do", method = RequestMethod.POST)
     @ResponseBody
-    public ResultInfo toList(@RequestParam(defaultValue = "1", value = "pageNo") Integer pageIndex,
+    public ResultInfo eventList(@RequestParam(defaultValue = "1", value = "pageNo") Integer pageIndex,
                              @RequestParam(defaultValue = "10") Integer pageSize,
                              @RequestBody Event event) {
 

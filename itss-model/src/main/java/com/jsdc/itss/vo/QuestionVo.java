@@ -246,6 +246,7 @@ public class QuestionVo implements Serializable {
     private Date create_time_end;
 
     private Integer userId;
+    private Integer WX_userId;
 
 
     private String sla_surplus_time;

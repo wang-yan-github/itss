@@ -80,7 +80,8 @@
                 v-model.trim="queryForm.solve_user_name"
                 placeholder="解决人"
                 clearable
-                @keyup.enter.native="queryData"
+                @clear="queryForm.solve_user=''"
+                @focus="handleSolveUser"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -90,7 +91,8 @@
                 v-model.trim="queryForm.audit_user_name"
                 placeholder="审核人"
                 clearable
-                @keyup.enter.native="queryData"
+                @clear="queryForm.now_operator_user=''"
+                @focus="handleAuditUser"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -120,7 +122,8 @@
                 v-model.trim="queryForm.clearance_user_name"
                 placeholder="关单人"
                 clearable
-                @keyup.enter.native="queryData"
+                @clear="queryForm.solve_user_id=''"
+                @focus="handleCloseUser"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -405,7 +408,8 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange2"
     ></el-pagination>
-
+    <!-- 用户 -->
+    <users ref="users" @userData="getUser" @fetch-data="fetchData"></users>
     <!--打印-->
     <prints ref="prints" @fetch-data="fetchData"></prints>
     <!--撤销-->
@@ -431,6 +435,8 @@ import {
   getQuestionStatusList,
   exportQuestionManExcel,
 } from '@/api/question'
+// 用户
+import Users from '@/components/UserSelectModel'
 // 备注
 import Remake from './components/remake'
 // 打印
@@ -445,13 +451,14 @@ import permission from '@/directive/permission'
 
 export default {
   name: 'menuManagement1',
-  directives: { permission },
+  directives: { permission},
   components: {
     Remake,
     Cancle,
     QuestionCategory,
     UserImport,
     Prints,
+    Users, 
   },
   data() {
     return {
@@ -482,6 +489,9 @@ export default {
         clearance_start_time: '',
         clearance_end_time: '',
         clearance_user_name: '',
+        solve_user_id: '',
+        now_operator_user: '',
+        solve_user: ''
       },
     }
   },
@@ -745,7 +755,39 @@ export default {
       // return z.y + "-" + z.M + "-" + z.d + " " + z.h + ":" + z.m ;
       return z.y + '-' + z.M + '-' + z.d
     },
+    getUser(row) {
+      console.log(this.selectType)
+      switch (this.selectType) {
+        case 'solve_user':
+          this.queryForm.solve_user = row.id;
+          this.queryForm.solve_user_name = row.name
+          break
+        case 'audit_user':
+          this.queryForm.now_operator_user = row.id;
+          this.queryForm.audit_user_name = row.name
+          break
+        case 'close_user':
+          this.queryForm.solve_user_id = row.id;
+          this.queryForm.clearance_user_name = row.name
+          break
+        default:
+          break
+      }
+    },
+    handleSolveUser() {
+      this.selectType = 'solve_user'
+      this.$refs['users'].showWin()
+    },
+    handleAuditUser() {
+      this.selectType = 'audit_user'
+      this.$refs['users'].showWin()
+    },
+    handleCloseUser() {
+      this.selectType = 'close_user'
+      this.$refs['users'].showWin()
+    },
   },
+  
 }
 </script>
 

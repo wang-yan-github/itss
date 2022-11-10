@@ -75,4 +75,8 @@ public class QuestionReviewer extends Model<QuestionReviewer> implements Seriali
     @TableField(exist = false)
     private String review_user_name;
 
+    @Transient
+    @TableField(exist = false)
+    private Integer WX_userId;
+
 }

@@ -1342,4 +1342,10 @@ Page({
     console.log("点击回车搜索:", that.data.queryForm.title)
     that.page();
   },
+  //我要开单
+  addClick:function(){
+    wx.navigateTo({
+      url: '../working/add/index',
+    })
+  }
 })

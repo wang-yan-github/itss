@@ -332,7 +332,18 @@
           return
         }
         this.setApproverType = type;
-        this.$refs['userDialog'].showWin()
+        var x = {};
+        if (type === 'generally'){
+          x.list = this.form.changeCommonlyApproveList1;
+          this.$refs['userDialog'].showWin(x)
+        }else if (type === 'urgent'){
+          x.list = this.form.changeUrgentApproveList1;
+          this.$refs['userDialog'].showWin(x)
+        }else if (type === 'major'){
+          x.list = this.form.changeMajorApproveList1
+          this.$refs['userDialog'].showWin(x)
+        }
+
       },
       // 回写审核人列表
       setApprover(data) {
@@ -490,7 +501,7 @@
                       this.fetchData()
                       this.closeall()
                     } else {
-                      this.$baseMessage("失败", 'error');
+                      this.$baseMessage(data.msg, 'error');
                       this.isDisable = false;
                     }
                   }catch(e){

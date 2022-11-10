@@ -37,6 +37,12 @@ public class SchemeClassificationService extends BaseService<SchemeClassificatio
      * Date 2022/3/9 10:22
      */
     public ResultInfo addSchemeClassification(SchemeClassification bean) {
+        QueryWrapper<SchemeClassification> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("name",bean.getName());
+        Long count = schemeClassificationMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         bean.setIs_del("0");
         if (null == bean.getParent_id()) {
             bean.setParent_id(0);
@@ -56,6 +62,12 @@ public class SchemeClassificationService extends BaseService<SchemeClassificatio
      * Date 2022/3/9 10:22
      */
     public ResultInfo updateSchemeClassification(SchemeClassification bean) {
+        QueryWrapper<SchemeClassification> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("name",bean.getName()).ne("id",bean.getId());
+        Long count = schemeClassificationMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         bean.setUpdate_time(new Date());
         bean.setUpdate_user(sysUserService.getUser().getId());
         schemeClassificationMapper.updateById(bean);
@@ -87,6 +99,7 @@ public class SchemeClassificationService extends BaseService<SchemeClassificatio
     public List<SchemeClassification> getDetailTree() {
         QueryWrapper<SchemeClassification> wrapper = new QueryWrapper<>();
         wrapper.eq("is_del", "0");
+        wrapper.orderByAsc("sort");
         List<SchemeClassification> fileCatalogs = schemeClassificationMapper.selectList(wrapper);
         List<SchemeClassification> lists = new ArrayList<>();
         for (SchemeClassification fileCatalog : fileCatalogs) {

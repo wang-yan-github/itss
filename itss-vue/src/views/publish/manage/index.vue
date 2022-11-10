@@ -98,8 +98,7 @@
 				<template #default="scope">
             <el-button v-permission="publish_manage_edit"  v-if="scope.row.status == '0'" plain @click="handleEdit(scope.row)" type="primary" size="mini">修改</el-button>
             <el-button v-permission="publish_manage_deleted"  v-if="scope.row.status == '0'" plain @click="handleDelete(scope.row)" type="danger" size="mini">删除</el-button>
-<!--            <el-button v-permission="publish_manage_edit"  v-if="scope.row.status != '0'" plain disabled type="primary" size="mini">修改</el-button>-->
-<!--            <el-button v-permission="publish_manage_deleted"  v-if="scope.row.status != '0'" plain disabled type="danger" size="mini">删除</el-button>-->
+
 				</template>
 			</el-table-column>
 		</el-table>
@@ -183,6 +182,14 @@
         this.$baseConfirm('你确定要删除选中项吗', null, async () => {
           const { msg } = await publishBasicInfoToDel(row)
           this.$baseMessage(msg, 'success')
+
+          // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+          const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+          this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+          this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
+
+
+
           this.fetchData()
         })
       },

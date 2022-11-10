@@ -1,5 +1,6 @@
 package com.jsdc.itss.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.jsdc.itss.exception.AjaxResult;
 import com.jsdc.itss.model.EventCategory;
@@ -41,6 +42,12 @@ public class EventCategoryController {
     @RequestMapping(value = "toAdd.do", method = RequestMethod.POST)
     @ResponseBody
     public ResultInfo addAssetsCompany(@RequestBody EventCategoryVo eventCategoryVo) {
+        QueryWrapper<EventCategory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del", "0").eq("name",eventCategoryVo.getEventCategory().getName());
+        Long count = eventCategoryService.selectCount(queryWrapper);
+        if (count > 0) {
+            return ResultInfo.error("名称已存在！");
+        }
         eventCategoryService.add(eventCategoryVo);
         return ResultInfo.success();
     }
@@ -48,6 +55,12 @@ public class EventCategoryController {
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     @ResponseBody
     public ResultInfo edit(@RequestBody EventCategoryVo eventCategoryVo) {
+        QueryWrapper<EventCategory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del", "0").eq("name",eventCategoryVo.getEventCategory().getName()).ne("id", eventCategoryVo.getEventCategory().getId());
+        Long count = eventCategoryService.selectCount(queryWrapper);
+        if (count > 0) {
+            return ResultInfo.error("名称已存在！");
+        }
         eventCategoryService.edit(eventCategoryVo);
         return ResultInfo.success();
     }

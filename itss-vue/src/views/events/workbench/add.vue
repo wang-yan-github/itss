@@ -22,7 +22,7 @@
                         v-model.trim="form.company_name"
                         placeholder="公司"
                         clearable
-                        @click.native="handleCompany"
+                        @focus="handleCompany"
                       >
                       </el-input>
                     </el-form-item>
@@ -36,25 +36,25 @@
                         @click.native="handleRole"
                       >
                       </el-input>
-<!--                  <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6">-->
-<!--                    <el-form-item label="用户:" prop="user_id_name">-->
-<!--                      <el-input v-model.trim="form.user_id_name" placeholder="用户" clearable @click.native="handleRole"></el-input>-->
+                      <!--                  <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6">-->
+                      <!--                    <el-form-item label="用户:" prop="user_id_name">-->
+                      <!--                      <el-input v-model.trim="form.user_id_name" placeholder="用户" clearable @click.native="handleRole"></el-input>-->
                     </el-form-item>
                   </el-col>
-<!--                  <el-col :xs="24" :sm="24" :md="4" :lg="4" :xl="4">-->
-<!--                    <el-form-item label="姓名:">-->
-<!--                      <el-input-->
-<!--                        v-model="form.user_name"-->
-<!--                        v-bind:readonly="true"-->
-<!--                      ></el-input>-->
-<!--                    </el-form-item>-->
-<!--                  </el-col>-->
-<!--                  <el-col :xs="24" :sm="24" :md="4" :lg="4" :xl="4">-->
-<!--                  <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">-->
-<!--                    <el-form-item label="姓名:">-->
-<!--                      <el-input v-model="form.user_name" v-bind:readonly="true"></el-input>-->
-<!--                    </el-form-item>-->
-<!--                  </el-col>-->
+                  <!--                  <el-col :xs="24" :sm="24" :md="4" :lg="4" :xl="4">-->
+                  <!--                    <el-form-item label="姓名:">-->
+                  <!--                      <el-input-->
+                  <!--                        v-model="form.user_name"-->
+                  <!--                        v-bind:readonly="true"-->
+                  <!--                      ></el-input>-->
+                  <!--                    </el-form-item>-->
+                  <!--                  </el-col>-->
+                  <!--                  <el-col :xs="24" :sm="24" :md="4" :lg="4" :xl="4">-->
+                  <!--                  <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">-->
+                  <!--                    <el-form-item label="姓名:">-->
+                  <!--                      <el-input v-model="form.user_name" v-bind:readonly="true"></el-input>-->
+                  <!--                    </el-form-item>-->
+                  <!--                  </el-col>-->
                   <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
                     <el-form-item label="部门:">
                       <el-input v-model.trim="form.deptName" clearable v-bind:readonly="true">
@@ -113,8 +113,8 @@
                   <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                     <el-form-item label="附件:" style="width: 400px">
                       <el-upload class="upload-button" action="" :auto-upload="false" :on-remove="handleRemove"
-                        :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed"
-                        :file-list="WorkFileList" :on-change="onChange">
+                                 :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed"
+                                 :file-list="WorkFileList" :on-change="onChange">
                         <el-button size="small" type="primary">
                           点击上传
                         </el-button>
@@ -132,7 +132,7 @@
                     <el-form-item label="来源:" prop="source_id">
                       <el-select v-model="form.source_id" placeholder="来源" class="w">
                         <el-option v-for="item in eventSourceList" :key="item.id" :label="item.resource_name"
-                          :value="item.id"></el-option>
+                                   :value="item.id"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -151,7 +151,7 @@
                     <el-form-item label="请求类型:" prop="request_type">
                       <el-select v-model="form.request_type" placeholder="请选择" class="w">
                         <el-option v-for="item in eventRequestTypeList" :key="item.id" :label="item.request_type_name"
-                          :value="item.id"></el-option>
+                                   :value="item.id"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -159,7 +159,7 @@
                     <el-form-item label="紧急度:" prop="urgency_degree_id">
                       <el-select v-model="form.urgency_degree_id" placeholder="请选择" @change="getFirst" class="w">
                         <el-option v-for="item in urgencyList" :key="item.id" :label="item.urgent_name"
-                          :value="item.id"></el-option>
+                                   :value="item.id"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -199,7 +199,7 @@
                   <el-col :xs="24" :sm="12" :md="4" :lg="6" :xl="4">
                     <el-form-item label="服务群组:">
                       <el-select v-model="form.service_groups_id" placeholder="服务群组" @change="serviceGroupsChange"
-                        class="w">
+                                 class="w">
                         <el-option v-for="item in list" :key="item.id" :label="item.name" :value="item.id"></el-option>
                       </el-select>
                     </el-form-item>
@@ -207,7 +207,7 @@
                   <el-col :xs="24" :sm="12" :md="4" :lg="6" :xl="4">
                     <el-form-item label="处理人:">
                       <el-input v-model.trim="form.handler_name" placeholder="处理人" clearable
-                        @click.native="handleRole1">
+                                @click.native="handleRole1">
                         <!-- <el-button
                           slot="prepend"
                           icon="el-icon-location-information"
@@ -261,8 +261,8 @@
                   <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                     <el-form-item label="附件:" style="width: 400px">
                       <el-upload class="upload-button" action="" :auto-upload="false" :on-remove="handleRemoveHandle"
-                        :before-remove="beforeRemoveHandle" multiple :limit="3" :on-exceed="handleExceedHandle"
-                        :file-list="fileListHandle" :on-change="onChangeHandle">
+                                 :before-remove="beforeRemoveHandle" multiple :limit="3" :on-exceed="handleExceedHandle"
+                                 :file-list="fileListHandle" :on-change="onChangeHandle">
                         <el-button size="small" type="primary">
                           点击上传
                         </el-button>
@@ -277,8 +277,8 @@
         <el-tab-pane :label="oneUser" name="second">
           <el-card shadow="never" style="border-top: 0">
             <el-table v-loading="listLoading" :data="form.eventAssist1" border highlight-current-row
-              :element-loading-text="elementLoadingText" @selection-change="setSelectPeopleRows"
-              height="calc(100vh - 400px)">
+                      :element-loading-text="elementLoadingText" @selection-change="setSelectPeopleRows"
+                      height="calc(100vh - 400px)">
 
               <el-table-column show-overflow-tooltip type="selection" align="center"></el-table-column>
               <el-table-column show-overflow-tooltip type="index" label="序号" width="60" sortable align="center">
@@ -289,7 +289,7 @@
               <el-table-column show-overflow-tooltip prop="telephone" label="电话" align="center"></el-table-column>
               <el-table-column show-overflow-tooltip prop="mailbox" label="邮箱" align="center"></el-table-column>
               <el-table-column show-overflow-tooltip prop="status" label="状态" sortable align="center"
-                :formatter="formatStatus"></el-table-column>
+                               :formatter="formatStatus"></el-table-column>
               <template slot="empty">
                 <el-empty :image-size="100" description="暂无数据"></el-empty>
               </template>
@@ -307,8 +307,8 @@
         <el-tab-pane :label="towUser" name="third">
           <el-card shadow="never" style="border-top: 0">
             <el-table v-loading="listLoading" :data="form.eventAssets1" border highlight-current-row
-              :element-loading-text="elementLoadingText" @selection-change="setSelectAssetsManageRows"
-              height="calc(100vh - 400px)">
+                      :element-loading-text="elementLoadingText" @selection-change="setSelectAssetsManageRows"
+                      height="calc(100vh - 400px)">
               <el-table-column show-overflow-tooltip type="selection" align="center"></el-table-column>
               <el-table-column show-overflow-tooltip type="index" label="序号" width="60" sortable align="center">
               </el-table-column>
@@ -327,7 +327,7 @@
                     否
                   </el-tag>
                   <el-tag size="mini" icon="el-icon-delete" class="red" v-if="scope.row.is_secrecy == '1'"
-                    type="success">
+                          type="success">
                     是
                   </el-tag>
                 </template>
@@ -356,8 +356,8 @@
         <el-tab-pane :label="threeUser" name="fourth">
           <el-card shadow="never" style="border-top: 0">
             <el-table v-loading="listLoading" :data="form.eventRelation1" border highlight-current-row
-              :element-loading-text="elementLoadingText" @selection-change="setSelectEventRows"
-              height="calc(100vh - 400px)">
+                      :element-loading-text="elementLoadingText" @selection-change="setSelectEventRows"
+                      height="calc(100vh - 400px)">
               <el-table-column show-overflow-tooltip type="selection" align="center"></el-table-column>
               <el-table-column show-overflow-tooltip type="index" label="序号" width="60" align="center">
               </el-table-column>
@@ -391,8 +391,8 @@
         <el-tab-pane label="用户历史请求" name="five">
           <el-card shadow="never" style="border-top: 0">
             <el-table v-loading="listLoading" :data="tableData" border highlight-current-row
-              :element-loading-text="elementLoadingText" @current-change="handleCurrentChange"
-              height="calc(100vh - 400px)">
+                      :element-loading-text="elementLoadingText" @current-change="handleCurrentChange"
+                      height="calc(100vh - 400px)">
               <el-table-column show-overflow-tooltip type="index" label="序号" width="60"></el-table-column>
               <el-table-column show-overflow-tooltip prop="create_user_name" label="姓名"></el-table-column>
               <el-table-column show-overflow-tooltip prop="title" label="标题"></el-table-column>
@@ -408,7 +408,7 @@
              </el-table-column> -->
             </el-table>
             <el-pagination background :current-page="queryUserForm.pageIndex" :page-size="queryUserForm.pageSize"
-              :layout="layout" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange2">
+                           :layout="layout" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange2">
             </el-pagination>
           </el-card>
         </el-tab-pane>
@@ -847,6 +847,10 @@ export default {
           this.userList.forEach((item) => {
             ids.push(item.id);
           });
+          if(ids.length == 0){
+            this.$baseMessage('该公司下没有用户', 'warning')
+            return
+          }
           let query = {
             ids: ids,
           };

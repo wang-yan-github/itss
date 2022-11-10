@@ -85,6 +85,9 @@ public class QuestionDao extends BaseDao<Question> {
             if (Base.notEmpty(beanParam.getNow_operator_user())) {
                 sql.append(" and q.now_operator_user = " + beanParam.getNow_operator_user());
             }
+            if (Base.notEmpty(beanParam.getNow_operator_user_name())) {
+                sql.append(" and u2.NAME  LIKE '%" + beanParam.getNow_operator_user_name() + "%' ");
+            }
             if (Base.notEmpty(beanParam.getDataStatus())) {
                 //列表状态
                 if (beanParam.getDataStatus().equals("db")) {

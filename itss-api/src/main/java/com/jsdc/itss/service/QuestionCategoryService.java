@@ -132,6 +132,19 @@ public class QuestionCategoryService extends BaseService<QuestionCategoryDao, Qu
      * 保存/更新
      */
     public ResultInfo saveOrUpd(QuestionCategory bean) {
+        QueryWrapper<QuestionCategory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("name",bean.getName());
+        if(Base.notEmpty(bean.getId())){
+            queryWrapper.ne("id",bean.getId());
+        }
+        Long  count = questionCategoryMapper.selectCount(queryWrapper);
+        if (count > 0) {
+            return ResultInfo.error("名称已存在");
+        }
+
+
+
+
         SysUser sysUser = sysUserService.getUser();
         if (Base.notEmpty(bean.getId())) {
             //修改

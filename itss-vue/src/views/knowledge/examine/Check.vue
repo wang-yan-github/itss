@@ -195,8 +195,8 @@
     getAllRange,
 	} from '@/api/knowledgeInfo'
 	import vabQuill from '@/plugins/vabQuill'
-	import dialogone from './components/UserDiaOne'
-	import dialogthree from './components/UserDiaThree'
+	import dialogone from '@/components/bumenTree'
+	import dialogthree from '../myKnowledge/components/UserDiaThree'
 	export default {
 		name: 'examineCheck',
 		components: {

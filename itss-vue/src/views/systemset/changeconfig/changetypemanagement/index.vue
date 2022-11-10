@@ -42,7 +42,7 @@
   import refView from './components/View'
 
   export default {
-    name: 'changetype',
+    name: 'changetype1',
     components: {refView},
     data() {
       return {

@@ -81,9 +81,9 @@
                 this.$emit('fetch-data');
                 this.close();
               } else {
-                this.$baseMessage("失败", 'error');
+                this.$baseMessage(data.msg, 'error');
                 this.isDisable = false;
-              } 
+              }
             }catch(e){
                this.isDisable = false;
             }

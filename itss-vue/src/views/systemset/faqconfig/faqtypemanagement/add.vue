@@ -273,20 +273,26 @@
         // 调用全局挂载的方法
         this.$store.dispatch('tabsBar/delRoute', this.$route)
         // 返回上一步路由
+
         this.$router.go(-1)
       },
       saveok() {
+
         this.$refs['form'].validate(async (valid) => {
           if (valid) {
             this.isDisable = true;
             const {msg} = await saveOrUpd(this.form)
-            this.$baseMessage(msg, 'success')
-            // this.$emit('fetch-data')
-            this.isDisable = false;
-            this.fetchData()
+            if(msg == '名称已存在'){
+              this.$baseMessage(msg, 'error')
+              this.isDisable = false;
+            }else {
+              this.$baseMessage(msg, 'success')
+              this.$emit('fetch-data')
+              this.closeall()
+            }
 
-            this.closeall()
           } else {
+            this.isDisable = false;
             return false
           }
         })

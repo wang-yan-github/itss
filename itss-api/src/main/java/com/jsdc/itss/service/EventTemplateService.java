@@ -1,5 +1,6 @@
 package com.jsdc.itss.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -186,6 +187,12 @@ public class EventTemplateService extends BaseService<EventTemplateDao, EventTem
      * Date 2022/3/10 13:59
      */
     public ResultInfo addEventEemplate(EventTemplate eventTemplate) {
+        QueryWrapper<EventTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("template_name",eventTemplate.getTemplate_name());
+        Long count = eventEemplateMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");//设置日期格式
         String newsNo = df.format(new Date());
         int num = (int) ((Math.random() * 9 + 1) * 1000);
@@ -204,6 +211,12 @@ public class EventTemplateService extends BaseService<EventTemplateDao, EventTem
      * Date 2022/3/10 14:01
      */
     public ResultInfo updateEventEemplate(EventTemplate eventTemplate) {
+        QueryWrapper<EventTemplate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("template_name",eventTemplate.getTemplate_name()).ne("id",eventTemplate.getId());
+        Long count = eventEemplateMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         eventTemplate.setUpdate_time(new Date());
         eventTemplate.setUpdate_user(sysUserService.getUser().getId());
         eventEemplateMapper.updateById(eventTemplate);

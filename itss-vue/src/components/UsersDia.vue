@@ -14,8 +14,9 @@
       </vab-query-form-left-panel>
 
     </vab-query-form>
-    <el-table v-loading="listLoading" :data="list" border highlight-current-row :element-loading-text="elementLoadingText" @selection-change="setSelectRows" >
-      <el-table-column show-overflow-tooltip type="selection" align="center"></el-table-column>
+    <el-table v-loading="listLoading" ref="itemTable" :data="list" border highlight-current-row :element-loading-text="elementLoadingText"
+              @selection-change="setSelectRows" :row-key="getRowKeys">
+      <el-table-column show-overflow-tooltip type="selection" :reserve-selection="true" align="center"></el-table-column>
       <el-table-column show-overflow-tooltip type="index" label="序号" align="center" width="50px;">
           <template slot-scope="scope">
               {{(queryForm.pageNo-1) * queryForm.pageSize+scope.$index+1}}
@@ -67,23 +68,31 @@
         list: null,
         row: {},
         data: [],
+        tableData1: [],
+        tableData2: [],
       }
     },
     created() {
 
     },
     methods: {
+      // 保存选中的数据id
+      getRowKeys(row) {
+        // id 是后台传递的每行信息唯一标识
+        return row.id;
+      },
       showWin(data) {
         this.title = '用户列表'
         this.dialogFormVisible = true;
         console.log("用户列表入参:", data)
         if(data){
           this.queryForm.ids = data.ids;
+          this.tableData1 = data.list
         }
         this.fetchData();
       },
       setSelectRows(val) {
-        this.selectRows = val
+        this.tableData2 = val
       },
       queryData() {
         this.queryForm.pageNo = 1
@@ -100,6 +109,8 @@
       close() {
         // this.$refs['form'].resetFields()
         //this.form = this.$options.data().form
+        this.tableData2 = [];
+        this.$refs.itemTable.clearSelection();
         this.dialogFormVisible = false
       },
       save() {
@@ -113,8 +124,8 @@
           //     that.data.push(that.selectRows[i]);
           //   }
           // }
-        console.log(that.selectRows);
-        that.$emit('listData', that.selectRows)
+
+        that.$emit('listData', this.tableData2)
           this.close();
         // } else {
         //   this.$baseMessage('未选中任何行', 'error')
@@ -139,6 +150,18 @@
         const {data, totalCount} = await getList(this.queryForm)
         this.list = data.list
         this.total = data.total
+        this.$nextTick(() => {
+          for (let i = 0; i < this.list.length; i++) {
+            for (let j = 0; j <this.tableData1.length ; j++) {
+              //两个数组做比对,选中的做勾选
+              if(this.tableData1[j].id==this.list[i].id) {
+                this.$refs.itemTable.toggleRowSelection(this.list[i],true);
+              }
+            }
+          }
+
+        });
+
         setTimeout(() => {
           this.listLoading = false
         }, 300)

@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import com.jsdc.core.base.Base;
 import com.jsdc.itss.common.aop.logaop.LogInfo;
 import com.jsdc.itss.enums.LogEnums;
+import com.jsdc.itss.exception.AjaxResult;
 import com.jsdc.itss.model.AssetsInventory;
 import com.jsdc.itss.model.AssetsInventoryDetails;
 import com.jsdc.itss.model.Event;
@@ -21,10 +22,7 @@ import com.jsdc.itss.service.AssetsInventoryService;
 import com.jsdc.itss.service.EventService;
 import com.jsdc.itss.service.EventSourceService;
 import com.jsdc.itss.service.*;
-import com.jsdc.itss.vo.AssetsInventoryDetailsVo;
-import com.jsdc.itss.vo.LogVo;
-import com.jsdc.itss.vo.ResultInfo;
-import com.jsdc.itss.vo.SlaEventImpactUrgentVo;
+import com.jsdc.itss.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -126,9 +124,9 @@ public class EventController {
             if (!CollectionUtils.isEmpty(assetsList)) {
                 EventAssets assets = assetsList.get(0);
                 AssetsManage manage = assetsManageService.selectOne(new QueryWrapper<AssetsManage>().eq("id", assets.getAssets_id()).eq("is_del", "0"));
-                if(null != manage){
+                if (null != manage) {
                     //关联项配置名称
-                    event.setEventAssetName(null == manage.getAssets_number()?"":manage.getAssets_number());
+                    event.setEventAssetName(null == manage.getAssets_number() ? "" : manage.getAssets_number());
                     event.setEventAssetId(manage.getId());
                 }
             }
@@ -308,7 +306,7 @@ public class EventController {
     @RequestMapping(value = "revoke", method = RequestMethod.POST)
     @ResponseBody
     @LogInfo(LogEnums.LOG_GZT)
-    public ResultInfo revoke(Integer id, String remark,Integer userId) {
+    public ResultInfo revoke(Integer id, String remark, Integer userId) {
         Event event = eventService.selectById(id);
 //        //待响应、处理中、已暂停
 //        if (!"1".equals(event.getStatus()) && !"2".equals(event.getStatus()) && !"3".equals(event.getStatus())) {
@@ -316,7 +314,7 @@ public class EventController {
 //        }
         event.setRevokeRemark(remark);
         eventService.revoke(event);
-        return ResultInfo.success("撤销成功", new LogVo(userId,event.getId(), "撤销", event.getRevokeRemark()));
+        return ResultInfo.success("撤销成功", new LogVo(userId, event.getId(), "撤销", event.getRevokeRemark()));
     }
 
     //暂停事件
@@ -823,5 +821,33 @@ public class EventController {
         } else {
             return ResultInfo.success("1");
         }
+    }
+
+
+    /**
+     * 新增开单接口
+     * Author wzn
+     * Date 2022/3/14 11:16
+     */
+    @RequestMapping(value = "addEvent.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo addEvent(@RequestBody EventVo eventVo) {
+        if (Base.notEmpty(eventVo)) {
+            return eventService.addEvent(eventVo, null, null);
+        } else {
+            return ResultInfo.error("请填写必填信息！！！");
+        }
+    }
+
+    /**
+     * 保存并关单
+     * Author wzn
+     * Date 2022/3/14 15:10
+     */
+    @RequestMapping(value = "closeSave.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo closeSave(@RequestBody EventVo eventVo) {
+        eventService.closeSave(eventVo);
+        return ResultInfo.success();
     }
 }

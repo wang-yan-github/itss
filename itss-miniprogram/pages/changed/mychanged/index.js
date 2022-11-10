@@ -739,5 +739,10 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  addChange(){
+    wx.navigateTo({
+        url: 'add/index',
+      })
   }
 })

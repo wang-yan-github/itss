@@ -190,7 +190,8 @@ public class EventService extends BaseService<EventDao, Event> {
         if (Base.notEmpty(eventVo.getTimeTaskStatus()) && eventVo.getTimeTaskStatus().equals("1")) {
             userId = eventVo.getCreate_user();
         } else {
-            userId = sysUserService.getUser().getId();
+            SysUser userData = sysUserService.getUserData(eventVo.getUserId());
+            userId = userData.getId();
         }
         event.setCreate_user(userId);
         eventMapper.insert(event);
@@ -312,11 +313,12 @@ public class EventService extends BaseService<EventDao, Event> {
      */
     public void closeSave(EventVo eventVo) {
         Event event = new Event();
+        SysUser userData = sysUserService.getUserData(eventVo.getUserId());
         BeanUtils.copyProperties(eventVo, event);
         event.setIs_del("0");
         event.setStatus("6");
         event.setCreate_time(new Date());
-        event.setCreate_user(sysUserService.getUser().getId());
+        event.setCreate_user(userData.getId());
         if(null != eventMapper.selectById(event.getId())){
             eventMapper.updateById(event);
         }else{
@@ -330,7 +332,7 @@ public class EventService extends BaseService<EventDao, Event> {
                 eventAssist.setEvent_id(event.getId());
                 eventAssist.setIs_del("0");
                 eventAssist.setCreate_time(new Date());
-                eventAssist.setCreate_user(sysUserService.getUser().getId());
+                eventAssist.setCreate_user(userData.getId());
                 eventAssistMapper.insert(eventAssist);
             }
         }
@@ -341,7 +343,7 @@ public class EventService extends BaseService<EventDao, Event> {
                 eventAssets.setAssets_id(id);
                 eventAssets.setEvent_id(event.getId());
                 eventAssets.setCreate_time(new Date());
-                eventAssets.setCreate_user(sysUserService.getUser().getId());
+                eventAssets.setCreate_user(userData.getId());
                 eventAssets.setIs_del("0");
                 eventAssetsMapper.insert(eventAssets);
             }
@@ -353,7 +355,7 @@ public class EventService extends BaseService<EventDao, Event> {
                 eventRelation.setEvent_id(id);
                 eventRelation.setParent_event_id(event.getId());
                 eventRelation.setCreate_time(new Date());
-                eventRelation.setCreate_user(sysUserService.getUser().getId());
+                eventRelation.setCreate_user(userData.getId());
                 eventRelation.setIs_del("0");
                 eventRelationMapper.insert(eventRelation);
             }
@@ -701,7 +703,7 @@ public class EventService extends BaseService<EventDao, Event> {
         // 根据用户id得到服务群组
         List<Integer> serviceGroups = new ArrayList<>();
         try {
-            serviceGroups = eventBillingDesignateService.getServiceIdByCurrentUser(event.getUserId());
+            serviceGroups = eventBillingDesignateService.getServiceIdByCurrentUser(event.getWX_userId());
             // 如果找不到服务群组，就返回空集合
             if (CollectionUtils.isEmpty(serviceGroups)) {
                 serviceGroups.add(-1);

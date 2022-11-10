@@ -152,7 +152,7 @@
 <script>
 	import {updateKnowledgeInfo,getKnowledgeInfoById,getAllRange} from '@/api/knowledgeInfo'
 	import vabQuill from '@/plugins/vabQuill'
-	import dialogone from './components/UserDiaOne'
+	import dialogone from '@/components/bumenTree'
 	import dialogtwo from './components/UserDiaTwo'
 	import dialogthree from './components/UserDiaThree'
 	export default {

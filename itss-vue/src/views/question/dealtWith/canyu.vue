@@ -42,12 +42,24 @@
           </el-col>
           <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
             <el-form-item>
-              <el-input v-model.trim="queryForm.solve_user_name" placeholder="解决人" clearable></el-input>
+              <el-input
+                v-model.trim="queryForm.solve_user_name"
+                placeholder="解决人"
+                clearable
+                @clear="queryForm.solve_user=''"
+                @focus="handleSolveUser"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
             <el-form-item>
-              <el-input v-model.trim="queryForm.audit_user_name" placeholder="审核人" clearable @keyup.enter.native="queryData"></el-input>
+              <el-input
+                v-model.trim="queryForm.audit_user_name"
+                placeholder="审核人"
+                clearable
+                @clear="queryForm.now_operator_user=''"
+                @focus="handleAuditUser"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
@@ -62,8 +74,14 @@
           </el-col>
           <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
             <el-form-item>
-              <el-input v-model.trim="queryForm.clearance_user_name" placeholder="关单人" clearable @keyup.enter.native="queryData"></el-input>
-            </el-form-item>
+              <el-input
+                v-model.trim="queryForm.clearance_user_name"
+                placeholder="关单人"
+                clearable
+                @clear="queryForm.solve_user_id=''"
+                @focus="handleCloseUser"
+              ></el-input>
+            </el-form-item> 
           </el-col>
         </el-row>
       </div>
@@ -116,7 +134,8 @@
       </el-table-column>
     </el-table>
     <el-pagination background :current-page="queryForm.pageNo" :page-size="queryForm.pageSize" :layout="layout" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange2"></el-pagination>
-
+    <!-- 用户 -->
+    <users ref="users" @userData="getUser" @fetch-data="fetchData"></users>
     <!--问题类别-->
     <questionCategory ref="questionCategory" @questionCategoryData="questionCategorySet"></questionCategory>
     <!--问题备注-->
@@ -132,6 +151,8 @@
     getQuestionFirstList,
     getQuestionStatusList
   } from '@/api/question'
+  // 用户
+  import Users from '@/components/UserSelectModel'
   //引用 问题类别 弹窗 页面
   import QuestionCategory from '@/components/questionCategory'
   //引用 备注 弹窗 页面
@@ -140,7 +161,7 @@
 
   export default {
     name: 'dealtCanyu1',
-    components: {QuestionCategory,Remake},
+    components: {QuestionCategory,Remake,Users, },
     data() {
       return {
         value1: '',
@@ -168,7 +189,10 @@
           audit_user_name: '',
           clearance_start_time: '',
           clearance_end_time: '',
-          clearance_user_name: ''
+          clearance_user_name: '',
+          solve_user_id: '',
+          now_operator_user: '',
+          solve_user: ''
         },
       }
     },
@@ -288,6 +312,37 @@
         // return z.y + "-" + z.M + "-" + z.d + " " + z.h + ":" + z.m ;
         return z.y + "-" + z.M + "-" + z.d ;
       },
+      getUser(row) {
+      console.log(this.selectType)
+      switch (this.selectType) {
+        case 'solve_user':
+          this.queryForm.solve_user = row.id;
+          this.queryForm.solve_user_name = row.name
+          break
+        case 'audit_user':
+          this.queryForm.now_operator_user = row.id;
+          this.queryForm.audit_user_name = row.name
+          break
+        case 'close_user':
+          this.queryForm.solve_user_id = row.id;
+          this.queryForm.clearance_user_name = row.name
+          break
+        default:
+          break
+      }
+    },
+    handleSolveUser() {
+      this.selectType = 'solve_user'
+      this.$refs['users'].showWin()
+    },
+    handleAuditUser() {
+      this.selectType = 'audit_user'
+      this.$refs['users'].showWin()
+    },
+    handleCloseUser() {
+      this.selectType = 'close_user'
+      this.$refs['users'].showWin()
+    },
     },
   }
 </script>

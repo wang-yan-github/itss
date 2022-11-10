@@ -274,7 +274,7 @@ public class EventDao extends BaseDao<Event> {
         sql.append(" left join sys_user userIdUser on userIdUser.id = e.user_id ");
         sql.append(" left join sys_user handlerUser on handlerUser.id = e.`handler` ");
         sql.append(" left join sla_event_first sef on sef.id = e.urgency_degree_id ");
-//        sql.append(" left join event_satisfaction es on es.event_id = e.id ");
+        sql.append(" left join event_satisfaction es on es.event_id = e.id ");
         sql.append(" where e.is_del=0 ");
 
         if (null == beanParam) {
@@ -302,6 +302,11 @@ public class EventDao extends BaseDao<Event> {
         }
         if (StringUtils.isNotBlank(beanParam.getTitle())) {
             sql.append(" and e.title like '%" + beanParam.getTitle() + "%'");
+        }
+
+        if (StringUtils.isNotBlank(beanParam.getMeetResponseSLA())){
+            sql.append(" and e.meetResponseSLA = " + beanParam.getMeetResponseSLA() );
+
         }
 
         if (null != beanParam.getId()) {

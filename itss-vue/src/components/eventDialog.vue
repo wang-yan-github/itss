@@ -106,7 +106,7 @@
           </el-form-item>
           <el-form-item>
             <el-input
-              v-model.trim="queryForm.keyword"
+              v-model.trim="queryForm.title"
               placeholder="关键字"
               clearable
               @keyup.enter.native="queryData"

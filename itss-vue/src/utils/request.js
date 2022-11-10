@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import {
+  baseURL,
   contentType,
   debounce,
   invalidCode,
@@ -41,7 +42,7 @@ const handleCode = (code, msg) => {
 }
 
 const instance = axios.create({
-  baseURL: 'http://wangyan.zone:8888/itss-web',
+  baseURL,
   // baseURL: 'http://192.168.0.172:8080',
   timeout: requestTimeout,
   headers: {

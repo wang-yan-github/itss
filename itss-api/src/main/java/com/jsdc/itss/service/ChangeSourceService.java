@@ -72,6 +72,19 @@ public class ChangeSourceService extends BaseService<ChangeSourceDao, ChangeSour
      * 保存/更新
      */
     public ResultInfo saveOrUpd(ChangeSource bean) {
+        QueryWrapper<ChangeSource> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("source_name",bean.getSource_name());
+        if (Base.notEmpty(bean.getId())) {
+            queryWrapper.ne("id", bean.getId());
+
+        }
+        Long count = changeSourceMapper.selectCount(queryWrapper);
+        if (count > 0) {
+            return ResultInfo.error("名称已存在");
+        }
+
+
+
         SysUser sysUser = sysUserService.getUser();
         if (Base.notEmpty(bean.getId())) {
             //修改

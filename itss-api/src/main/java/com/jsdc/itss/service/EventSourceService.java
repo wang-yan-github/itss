@@ -51,7 +51,7 @@ public class EventSourceService extends BaseService<EventSourceDao, EventSource>
             queryWrapper.eq("is_use", eventSource.getIs_use());
         }
         queryWrapper.eq("is_del", "0");
-        queryWrapper.orderByDesc("id");
+        queryWrapper.orderByAsc("sort");
         PageHelper.startPage(pageIndex, pageSize);
         List<EventSource> list = eventSourceMapper.selectList(queryWrapper);
 //        list.forEach(x->{
@@ -87,6 +87,12 @@ public class EventSourceService extends BaseService<EventSourceDao, EventSource>
      * Date 2022/3/9 10:56
      */
     public ResultInfo addEventSource(EventSource eventSource) {
+        QueryWrapper<EventSource> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("resource_name", eventSource.getResource_name()).eq("is_del","0");
+        Long count = eventSourceMapper.selectCount(queryWrapper);
+        if(count> 0){
+            return ResultInfo.error("名称已经存在");
+        }
         eventSource.setIs_del("0");
         eventSource.setCreate_time(new Date());
         eventSource.setCreate_user(sysUserService.getUser().getId());
@@ -101,6 +107,12 @@ public class EventSourceService extends BaseService<EventSourceDao, EventSource>
      * Date 2022/3/9 10:56
      */
     public ResultInfo updateEventSource(EventSource eventSource) {
+        QueryWrapper<EventSource> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("resource_name", eventSource.getResource_name()).eq("is_del","0").ne("id", eventSource.getId());
+        Long count = eventSourceMapper.selectCount(queryWrapper);
+        if(count> 0){
+            return ResultInfo.error("名称已经存在");
+        }
         eventSource.setUpdate_time(new Date());
         eventSource.setUpdate_user(sysUserService.getUser().getId());
         eventSourceMapper.updateById(eventSource);

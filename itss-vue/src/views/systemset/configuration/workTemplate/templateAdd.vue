@@ -866,7 +866,7 @@
                   that.fetchData()
                   that.closeall()
                 } else {
-                  that.$baseMessage("失败", 'error');
+                  that.$baseMessage(res.msg, 'error');
                   that.isDisable = false;
                 }
               })
@@ -877,7 +877,7 @@
                   that.fetchData()
                   that.closeall()
                 } else {
-                  that.$baseMessage("失败", 'error');
+                  that.$baseMessage(res.msg, 'error');
                   that.isDisable = false;
                 }
               })

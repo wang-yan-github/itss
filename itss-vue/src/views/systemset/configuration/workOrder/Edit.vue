@@ -492,10 +492,14 @@
         this.$refs['superior'].showWin(this.$route.query.id)
       },
       handleAddXcr() {
-        this.$refs['dialogone2'].showWin()
+        var temp = {};
+        temp.list = this.xcrList;
+        this.$refs['dialogone2'].showWin(temp)
       },
       handleAddFzr() {
-        this.$refs['dialogone3'].showWin()
+        var temp = {};
+        temp.list = this.fzrList
+        this.$refs['dialogone3'].showWin(temp)
       },
       formatStatus(row, column, cellValue) {
         switch (cellValue) {
@@ -605,7 +609,7 @@
                   path: '/set/workOrder',
                 })
               } else {
-                that.$baseMessage("失败", 'error');
+                that.$baseMessage(res.msg, 'error');
                 that.isDisable = false;
               }
 

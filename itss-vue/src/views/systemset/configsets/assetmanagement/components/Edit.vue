@@ -99,6 +99,7 @@
               this.$emit('fetch-data');
               this.close();
             } else {
+              this.$baseMessage(data.msg, 'error');
               this.loading = false
               this.loadingText = '保 存'
             }

@@ -21,7 +21,7 @@
       @current-change="handleCurrentChange"
     >
       <el-table-column show-overflow-tooltip type="index" label="序号" sortable align="center" width="100px;"></el-table-column>
-      <el-table-column show-overflow-tooltip prop="name" label="名称" sortable align="center"></el-table-column>
+      <el-table-column show-overflow-tooltip prop="name" label="名称" sortable align="left"></el-table-column>
       <el-table-column show-overflow-tooltip prop="is_use" label="状态" align="center">
         <template slot-scope="scope">
           <el-tag size="small" type="success" v-if="scope.row.is_use == '0'">启用</el-tag>
@@ -85,7 +85,7 @@
           this.$baseConfirm('你确定要删除选中项吗', null, async () => {
             del(ids).then((res) => {
               this.$baseMessage("操作成功", 'success')
-              this.select();
+              this.fetchData();
             });
           })
         } else {

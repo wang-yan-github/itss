@@ -112,8 +112,8 @@
 				</el-dropdown>
 			</vab-query-form-left-panel>
 			<vab-query-form-right-panel :span="18">
-				
-					
+
+
 					<el-form-item>
 						<el-input v-model.trim="queryForm.title" placeholder="标题" clearable @keyup.enter.native="queryData"/>
 					</el-form-item>
@@ -128,7 +128,7 @@
 							高级
 						</el-button>
 					</el-form-item>
-				
+
 			</vab-query-form-right-panel>
 		</vab-query-form>
     </el-form>
@@ -388,6 +388,13 @@
               id
             })
             this.$baseMessage(msg, 'success')
+
+            // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+            const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+            console.log("totalPage",totalPage);
+            this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+            this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
+            console.log(this.queryForm.pageNo);
             this.fetchData()
           })
 

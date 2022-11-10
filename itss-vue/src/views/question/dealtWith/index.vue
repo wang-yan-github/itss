@@ -9,17 +9,17 @@
           <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
             <el-form-item>
               <el-date-picker
-                v-model="queryForm.create_start_time"
+                v-model="queryForm.create_time_start"
                 type="date"
                 value-format="yyyy-MM-dd"
                 placeholder="创建时间(Start)"
-              ></el-date-picker>
+              ></el-date-picker> 
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
             <el-form-item>
               <el-date-picker
-                v-model="queryForm.create_end_time"
+                v-model="queryForm.create_time_end"
                 type="date"
                 value-format="yyyy-MM-dd"
                 placeholder="创建时间(End)"
@@ -72,7 +72,8 @@
                 v-model.trim="queryForm.solve_user_name"
                 placeholder="解决人"
                 clearable
-                @keyup.enter.native="queryData"
+                @clear="queryForm.solve_user=''"
+                @focus="handleSolveUser"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -82,7 +83,8 @@
                 v-model.trim="queryForm.audit_user_name"
                 placeholder="审核人"
                 clearable
-                @keyup.enter.native="queryData"
+                @clear="queryForm.appraisal_user=''"
+                @focus="handleAuditUser"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -96,16 +98,17 @@
               <el-date-picker v-model="queryForm.clearance_end_time" type="date" placeholder="关单时间(End)"></el-date-picker>
             </el-form-item>
           </el-col> -->
-          <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
+          <!-- <el-col :xs="24" :sm="24" :md="3" :lg="3" :xl="3">
             <el-form-item>
               <el-input
                 v-model.trim="queryForm.clearance_user_name"
                 placeholder="关单人"
                 clearable
-                @keyup.enter.native="queryData"
+                @clear="queryForm.solve_user_id=''"
+                @focus="handleCloseUser"
               ></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
       <vab-query-form>
@@ -384,7 +387,8 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange2"
     ></el-pagination>
-
+    <!-- 用户 -->
+    <users ref="users" @userData="getUser" @fetch-data="fetchData"></users>
     <!--备注-->
     <remake ref="remake" @fetch-data="fetchData"></remake>
     <!--停止-->
@@ -405,6 +409,8 @@ import {
   getQuestionFirstList,
   getQuestionStatusList,
 } from '@/api/question'
+// 用户
+import Users from '@/components/UserSelectModel'
 //引用 问题类别 弹窗 页面
 import QuestionCategory from '@/components/questionCategory'
 //引用 停止 弹窗 页面
@@ -417,7 +423,7 @@ import permission from '@/directive/permission'
 export default {
   name: 'roleManagement1',
   directives: { permission },
-  components: { Remake, Stop, QuestionCategory },
+  components: { Remake, Stop, QuestionCategory,Users, },
   data() {
     return {
       value1: '',
@@ -446,6 +452,9 @@ export default {
         clearance_start_time: '',
         clearance_end_time: '',
         clearance_user_name: '',
+        solve_user_id: '',
+        appraisal_user: '',
+        solve_user: ''
       },
     }
   },
@@ -502,6 +511,11 @@ export default {
       } else {
         this.$baseMessage('未选中任何行', 'error')
         return false
+      }
+    },
+    clearClick(event){
+      if(event==1){
+
       }
     },
     //审核
@@ -678,6 +692,37 @@ export default {
       }
       // return z.y + "-" + z.M + "-" + z.d + " " + z.h + ":" + z.m ;
       return z.y + '-' + z.M + '-' + z.d
+    },
+    getUser(row) {
+      console.log(this.selectType)
+      switch (this.selectType) {
+        case 'solve_user':
+          this.queryForm.solve_user = row.id;
+          this.queryForm.solve_user_name = row.name
+          break
+        case 'audit_user':
+          this.queryForm.appraisal_user = row.id;
+          this.queryForm.audit_user_name = row.name
+          break
+        case 'close_user':
+          this.queryForm.solve_user_id = row.id;
+          this.queryForm.clearance_user_name = row.name
+          break
+        default:
+          break
+      }
+    },
+    handleSolveUser() {
+      this.selectType = 'solve_user'
+      this.$refs['users'].showWin()
+    },
+    handleAuditUser() {
+      this.selectType = 'audit_user'
+      this.$refs['users'].showWin()
+    },
+    handleCloseUser() {
+      this.selectType = 'close_user'
+      this.$refs['users'].showWin()
     },
   },
 }

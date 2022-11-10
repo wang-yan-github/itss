@@ -87,7 +87,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-       
+
       </div>
       <vab-query-form>
         <vab-query-form-left-panel :span="14">
@@ -153,7 +153,7 @@
           <el-tag type="info" v-else>其他</el-tag>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip label="操作" width="135px;" align="center" header-align="center" fixed="right">
+      <el-table-column show-overflow-tooltip label="操作" width="170px;" align="center" header-align="center" fixed="right">
         <template #default="{ row }">
           <el-button v-permission="event_workbench_chuli" plain @click="handlechuli(row)"
                      v-if="row.status == '2' && row.isHandler && row.service_groups_id"

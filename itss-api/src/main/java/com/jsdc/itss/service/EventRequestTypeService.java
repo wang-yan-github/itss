@@ -52,7 +52,7 @@ public class EventRequestTypeService extends BaseService<EventRequestTypeDao, Ev
         if (null != eventRequestType.getIs_use()) {
             queryWrapper.eq("is_use", eventRequestType.getIs_use());
         }
-        queryWrapper.orderByDesc("id");
+        queryWrapper.orderByAsc("sort");
         List<EventRequestType> eventRequestTypeList = selectList(queryWrapper);
         PageInfo<EventRequestType> page = new PageInfo<>(eventRequestTypeList);
         return page;
@@ -101,6 +101,12 @@ public class EventRequestTypeService extends BaseService<EventRequestTypeDao, Ev
      * @return
      */
     public ResultInfo addEventRequestType(EventRequestType eventRequestType) {
+        QueryWrapper<EventRequestType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("request_type_name", eventRequestType.getRequest_type_name());
+        Long count = eventRequestTypeMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已经存在");
+        }
         // 删除状态
         eventRequestType.setIs_del(String.valueOf(0));
         // 创建时间
@@ -125,6 +131,13 @@ public class EventRequestTypeService extends BaseService<EventRequestTypeDao, Ev
      * @return
      */
     public ResultInfo editEventRequestType(EventRequestType eventRequestType) {
+        QueryWrapper<EventRequestType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("request_type_name", eventRequestType.getRequest_type_name()).ne("id",eventRequestType.getId());
+        Long count = eventRequestTypeMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已经存在");
+        }
+
         // 修改者
         eventRequestType.setUpdate_user(sysUserService.getUser().getId());
         // 修改时间

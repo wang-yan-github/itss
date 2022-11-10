@@ -302,3 +302,7 @@
     <van-datetime-picker title="时间选择" type="date" value="{{ endTime }}" bind:input="onInput1" min-date="{{ minDate }}" formatter="{{ formatter }}" bind:confirm="onClose3"  bind:cancel="onClose3" />
   </van-popup> -->
 </van-popup>
+
+<view class="footbtn {{selected?'':'hide'}}" id="footerid">
+  <van-button icon="plus" type="info" custom-style="width:600rpx;margin-left:0px;border-radius:5px;" bindtap="addClick">开单</van-button>
+</view>

@@ -292,7 +292,7 @@
   import permission from "@/directive/permission";
 
   export default {
-    name: 'table',
+    name: 'table1',
     directives: {permission},
     components: {
       Dialogone,

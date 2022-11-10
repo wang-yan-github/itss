@@ -72,6 +72,13 @@ public class EventSolutionTypeService extends BaseService<EventSolutionTypeDao, 
      */
 
     public ResultInfo addSysCompany(EventSolutionType eventSolutionType) {
+        QueryWrapper<EventSolutionType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("solution_name",eventSolutionType.getSolution_name());
+        Long count =  eventSolutionTypeMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
+
         eventSolutionType.setIs_del("0");
         eventSolutionType.setCreate_time(new Date());
         eventSolutionType.setCreate_user(sysUserService.getUser().getId());
@@ -95,6 +102,12 @@ public class EventSolutionTypeService extends BaseService<EventSolutionTypeDao, 
      * @return
      */
     public ResultInfo updateSysCompany(EventSolutionType eventSolutionType) {
+        QueryWrapper<EventSolutionType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("solution_name",eventSolutionType.getSolution_name()).ne("id",eventSolutionType.getId());
+        Long count =  eventSolutionTypeMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         eventSolutionType.setUpdate_time(new Date());
         eventSolutionType.setUpdate_user(sysUserService.getUser().getId());
         eventSolutionTypeMapper.updateById(eventSolutionType);

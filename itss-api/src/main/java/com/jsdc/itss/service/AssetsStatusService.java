@@ -65,6 +65,12 @@ public class AssetsStatusService extends BaseService<AssetsStatusDao, AssetsStat
      * @return
      */
     public ResultInfo addAssetsStatus(AssetsStatus assetsStatus) {
+        QueryWrapper<AssetsStatus> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("status_name",assetsStatus.getStatus_name());
+        Long count = assetsStatusMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         // 删除状态
         assetsStatus.setIs_del(String.valueOf(0));
         // 创建时间
@@ -81,6 +87,12 @@ public class AssetsStatusService extends BaseService<AssetsStatusDao, AssetsStat
      * @return
      */
     public ResultInfo editAssetsStatus(AssetsStatus assetsStatus) {
+        QueryWrapper<AssetsStatus> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("status_name",assetsStatus.getStatus_name()).ne("id",assetsStatus.getId());
+        Long count = assetsStatusMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
         // 修改者
         assetsStatus.setUpdate_user(sysUserService.getUser().getId());
         // 修改时间

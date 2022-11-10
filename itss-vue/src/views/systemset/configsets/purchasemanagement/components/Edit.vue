@@ -107,7 +107,7 @@
               this.$emit('fetch-data');
               this.close();
             } else {
-              this.$baseMessage("失败", 'error');
+              this.$baseMessage(data.msg, 'error');
               this.loading = false
               this.loadingText = '保 存'
             }

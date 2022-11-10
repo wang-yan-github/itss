@@ -7,6 +7,7 @@ import com.jsdc.itss.mapper.QuestionReviewerMapper;
 import com.jsdc.itss.model.QuestionReviewer;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jsdc.itss.model.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,8 +65,15 @@ public class QuestionReviewerService extends BaseService<QuestionReviewerDao, Qu
         bean.setIs_del("0");
         // 创建时间
         bean.setCreate_time(new Date());
+        //获取用户信息
+        SysUser sysUser = null ;
+        if(null == bean.getWX_userId()){
+            sysUser = sysUserService.getUser();
+        }else {
+            sysUser = sysUserService.selectById(bean.getWX_userId());
+        }
         // 创建者
-        bean.setCreate_user(sysUserService.getUser().getId());
+        bean.setCreate_user(sysUser.getId());
         insert(bean);
         return ResultInfo.success();
     }

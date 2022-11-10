@@ -169,7 +169,7 @@
   } from '@/api/eventServiceManage'
 
   export default {
-    name: 'workTemplate',
+    name: 'workTemplateTemp',
     components: {},
     data() {
       return {

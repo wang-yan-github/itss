@@ -235,8 +235,16 @@
 
               save(that.form).then((res) => {
                 // that.$baseMessage(msg, 'success')
-                that.$emit('fetch-data')
-                that.close()
+                if (res.code == 0) {
+                  that.$baseMessage('成功', 'success');
+                  that.$emit('fetch-data');
+                  that.close();
+                } else {
+                  that.$baseMessage(res.msg, 'error');
+                  that.isDisable = false;
+                }
+
+
               });
             } else {
               if (that.is_def_engineer == true) {
@@ -290,11 +298,11 @@
 
               edit(that.form).then((res) => {
                 if (res.code == 0) {
-                  // that.$baseMessage(data.msg, 'success');
+                  that.$baseMessage('成功', 'success');
                   that.$emit('fetch-data');
                   that.close();
                 } else {
-                  that.$baseMessage("失败", 'error');
+                  that.$baseMessage(res.msg, 'error');
                   that.isDisable = false;
                 }
 

@@ -1004,7 +1004,15 @@ export default {
           if (res.code == 0) {
             if (res.data) {
               this.$baseMessage('删除成功', 'success')
-              this.queryData()
+
+              // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+              const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+              console.log(totalPage)
+              this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+              this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
+              console.log(totalPage)
+
+              this.fetchData()
             } else {
               this.$baseMessage('删除失败', 'error')
             }

@@ -125,7 +125,7 @@
                       that.$emit('fetch-data');
                       that.close();
                     } else {
-                      that.$baseMessage("失败", 'error');
+                      that.$baseMessage(res.msg, 'error');
                       that.isDisable = false;
                     }
                   });
@@ -136,7 +136,7 @@
                       that.$emit('fetch-data');
                       that.close();
                     } else {
-                      that.$baseMessage("失败", 'error');
+                      that.$baseMessage(res.msg, 'error');
                       that.isDisable = false;
                     }
                   });

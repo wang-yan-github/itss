@@ -77,6 +77,17 @@ public class QuestionSourceService extends BaseService<QuestionSourceDao, Questi
      */
     public ResultInfo saveOrUpd(QuestionSource bean) {
         SysUser sysUser = sysUserService.getUser();
+        QueryWrapper<QuestionSource> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("name",bean.getName());
+        if (Base.notEmpty(bean.getId())){
+            queryWrapper.ne("id",bean.getId());
+        }
+        Long count = questionSourceMapper.selectCount(queryWrapper);
+        if (count > 0){
+            return ResultInfo.error("名称已存在");
+        }
+
+
         if (Base.notEmpty(bean.getId())) {
             //修改
             // 修改者

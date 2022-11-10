@@ -39,10 +39,11 @@ public class AssetsCompanyService extends BaseService<AssetsCompanyDao, AssetsCo
      * @return
      */
     public PageInfo<AssetsCompany> toList(Integer pageIndex, Integer pageSize, AssetsCompany assetsCompany) {
-        PageHelper.startPage(pageIndex,pageSize, "create_time desc");
+        PageHelper.startPage(pageIndex,pageSize, "sort asc");
         List<AssetsCompany> assetsCompanies = selectList(Wrappers.<AssetsCompany>lambdaQuery()
                 .like(StringUtils.isNotEmpty(assetsCompany.getCompany_name()),AssetsCompany::getCompany_name,assetsCompany.getCompany_name())
                 .eq(AssetsCompany::getIs_del, "0")
+
         );
         return new PageInfo<>(assetsCompanies);
     }
@@ -62,6 +63,12 @@ public class AssetsCompanyService extends BaseService<AssetsCompanyDao, AssetsCo
      * @return
      */
     public ResultInfo addAssetsCompany(AssetsCompany assetsCompany) {
+        QueryWrapper<AssetsCompany> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("company_name",assetsCompany.getCompany_name());
+        Long count = assetsCompanyMapper.selectCount(queryWrapper);
+        if (count > 0) {
+            return ResultInfo.error("名称已存在");
+        }
         // 删除状态
         assetsCompany.setIs_del(String.valueOf(0));
         // 创建时间
@@ -78,6 +85,12 @@ public class AssetsCompanyService extends BaseService<AssetsCompanyDao, AssetsCo
      * @return
      */
     public ResultInfo editAssetsCompany(AssetsCompany assetsCompany) {
+        QueryWrapper<AssetsCompany> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_del","0").eq("company_name",assetsCompany.getCompany_name()).ne("id",assetsCompany.getId());
+        Long count = assetsCompanyMapper.selectCount(queryWrapper);
+        if (count > 0) {
+            return ResultInfo.error("名称已存在");
+        }
         // 修改者
         assetsCompany.setUpdate_user(sysUserService.getUser().getId());
         // 修改时间

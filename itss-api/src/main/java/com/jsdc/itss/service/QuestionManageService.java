@@ -305,10 +305,13 @@ public class QuestionManageService extends BaseService<QuestionDao, Question> {
 
         //获取用户信息
         SysUser sysUser = null ;
-        if(null == bean.getUserId()){
+        //新增问题审核人  问题审核人关联表
+        QuestionReviewer questionReviewer = new QuestionReviewer();
+        if(null == bean.getWX_userId()){
             sysUser = sysUserService.getUser();
         }else {
-            sysUser = sysUserService.selectById(bean.getUserId());
+            questionReviewer.setWX_userId(bean.getWX_userId());
+            sysUser = sysUserService.selectById(bean.getWX_userId());
         }
         question.setCode(DataUtils.getNo(DataType.QUESTION_TYPE));
         // 删除状态
@@ -343,8 +346,6 @@ public class QuestionManageService extends BaseService<QuestionDao, Question> {
         questionCategoryReviewer.setCategory_id(bean.getCategory_id());
         List<QuestionCategoryReviewer> questionCategoryReviewerList = questionCategoryReviewerService.getList(questionCategoryReviewer);
         for (QuestionCategoryReviewer questionCategoryReviewer1 : questionCategoryReviewerList) {
-            //新增问题审核人  问题审核人关联表
-            QuestionReviewer questionReviewer = new QuestionReviewer();
             //2	问题id
             questionReviewer.setQuestion_id(question.getId());
             //3	审核人 用户表id
@@ -373,7 +374,12 @@ public class QuestionManageService extends BaseService<QuestionDao, Question> {
         }
 
         if (Base.empty(question.getUserId())) {
-            return ResultInfo.success("添加成功!", new LogVo(question.getId(), "开单", StringUtils.EMPTY));
+            if(Base.empty(bean.getWX_userId())){
+                return ResultInfo.success("添加成功!", new LogVo(question.getId(), "开单", StringUtils.EMPTY));
+            }else{
+                return ResultInfo.success("添加成功!", new LogVo(bean.getWX_userId(), question.getId(), "开单", StringUtils.EMPTY));
+            }
+
         } else {
             return ResultInfo.success("添加成功!", new LogVo(question.getUserId(), question.getId(), "开单", StringUtils.EMPTY));
         }

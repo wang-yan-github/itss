@@ -7,10 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.jsdc.core.base.BaseController;
 import com.jsdc.itss.model.*;
 import com.jsdc.itss.service.*;
-import com.jsdc.itss.vo.AssetsConfigReqVo;
-import com.jsdc.itss.vo.AssetsInventoryDetailsVo;
-import com.jsdc.itss.vo.OverviewVo;
-import com.jsdc.itss.vo.ResultInfo;
+import com.jsdc.itss.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 配置项管理 控制器
@@ -28,6 +26,12 @@ import java.util.List;
 @RequestMapping("/app/assetsManage")
 public class AssetsManageController extends BaseController {
 
+    @Autowired
+    private SysDepartmentService sysDepartmentService;
+    @Autowired
+    private EventService eventService;
+    @Autowired
+    private ChangeInfoService changeInfoService;
     @Autowired
     private AssetsManageService assetsManageService;
     @Autowired
@@ -106,16 +110,6 @@ public class AssetsManageController extends BaseController {
     @ResponseBody
     public ResultInfo getExpandInfo(Integer id){
         return assetsManageService.getExpandInfo(id);
-    }
-
-    /**
-     *  添加
-     */
-    @RequestMapping(value = "toAdd.do",method = RequestMethod.POST)
-    @ResponseBody
-    public ResultInfo addAssetsManage(@RequestParam String body, @RequestParam List<MultipartFile> file, @RequestParam List<MultipartFile> picture){
-        AssetsManage assetsManage = JSON.parseObject(body, AssetsManage.class);
-        return assetsManageService.addAssetsManage(assetsManage, file, picture);
     }
 
     /**
@@ -450,6 +444,71 @@ public class AssetsManageController extends BaseController {
     }
 
 
+    /**
+     * 添加
+     */
+    @RequestMapping(value = "toAdd.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo addAssetsConfigReq(@RequestBody AssetsConfigReqVo beanParam) {
+        return assetsConfigReqService.addAssetsConfigReq(beanParam);
+    }
 
+    /**
+     * 类型
+     */
+    @RequestMapping(value = "getAll.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo getAll(AssetsRequestConfig beanParam) {
+        List<AssetsRequestConfig> list = assetsRequestConfigService.getAll(beanParam);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",list);
+        jsonObject.put("nameList",list.stream().map(AssetsRequestConfig::getRequest_name).collect(Collectors.toList()));
+        return ResultInfo.success(jsonObject);
+    }
 
+    /**
+     * 部门
+     */
+    @RequestMapping("deptList.do")
+    public ResultInfo deptList(SysDepartment sysDepartment){
+        List<SysDepartmentVo> list = sysDepartmentService.queryWithTree(sysDepartment);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",list);
+        jsonObject.put("nameList",list.stream().map(SysDepartmentVo::getName).collect(Collectors.toList()));
+        return ResultInfo.success(jsonObject);
+    }
+
+    /**
+     * 关联的变更
+     */
+    @RequestMapping(value = "changeList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo changeList(@RequestBody ChangeVo changeVo) {
+        return changeInfoService.toList(changeVo.getPageNo(), changeVo.getPageSize(), changeVo);
+    }
+
+    /**
+     * 添加关联的工单
+     */
+    @RequestMapping(value = "eventList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo eventList(@RequestParam(defaultValue = "1", value = "pageNo") Integer pageIndex,
+                             @RequestParam(defaultValue = "10") Integer pageSize,
+                             @RequestBody Event event) {
+
+        PageInfo<Event> page = eventService.toList(pageIndex, pageSize, event);
+        return ResultInfo.success(page);
+    }
+
+    /**
+     * 添加关联的配置项
+     */
+    @RequestMapping(value = "assetsManageList.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo assetsManageList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+                             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+                             AssetsManage beanParam) {
+        PageInfo<AssetsManage> page = assetsManageService.toList(pageNo, pageSize, beanParam);
+        return ResultInfo.success(page);
+    }
 }

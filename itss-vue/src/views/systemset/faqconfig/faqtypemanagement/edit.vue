@@ -361,12 +361,15 @@
             this.isDisable = true;
             console.log(this.form)
             const {msg} = await saveOrUpd(this.form)
-            this.$baseMessage(msg, 'success')
-            // this.$emit('fetch-data')
-            this.isDisable = false;
-            this.fetchData()
+            if(msg == '名称已存在'){
+              this.$baseMessage(msg, 'error')
+              this.isDisable = false;
+            }else {
+              this.$baseMessage(msg, 'success')
+              this.$emit('fetch-data')
+              this.closeall()
+            }
 
-            this.closeall()
           } else {
             return false
           }

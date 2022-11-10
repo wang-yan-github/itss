@@ -21,7 +21,11 @@
 
     <el-table v-loading="listLoading" ref="listTable" stripe :data="list" :element-loading-text="elementLoadingText"
               highlight-current-row border @current-change="handleCurrentChange">
-      <el-table-column show-overflow-tooltip type="index" label="序号" align="center" width="80px;"></el-table-column>
+      <el-table-column show-overflow-tooltip type="index" label="序号" align="center" width="80px;">
+        <template slot-scope="scope">
+          {{(queryForm.pageNo-1) * queryForm.pageSize+scope.$index+1}}
+        </template>
+      </el-table-column>
       <el-table-column show-overflow-tooltip prop="company_name" sortable label="名称" header-align="center"
                        align="center">
         <template #default="{ row }">

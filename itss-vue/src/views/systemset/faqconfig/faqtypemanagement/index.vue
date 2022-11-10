@@ -39,7 +39,7 @@
   import Rolesview from './components/View'
 
   export default {
-    name: 'faqtype',
+    name: 'faqtype1',
     components: {Edit, Rolesview},
     data() {
       return {

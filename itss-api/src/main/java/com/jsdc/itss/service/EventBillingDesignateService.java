@@ -32,7 +32,7 @@ public class EventBillingDesignateService extends BaseService<EventBillingDesign
     public List<Integer> getServiceIdByCurrentUser(Integer ...intArray) {
         //获取用户信息
         SysUser sysUser = null;
-        if (intArray.length > 0) {
+        if (intArray.length > 0 && null !=intArray[0]) {
             sysUser = sysUserService.selectById(intArray[0]);
         } else {
             sysUser = sysUserService.getUser();

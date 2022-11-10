@@ -85,6 +85,7 @@ public class ChangeTypeService extends BaseService<ChangeTypeDao, ChangeType> {
         if(null != changeType.getId()){
             queryWrapper.ne("id", changeType.getId());
         }
+        queryWrapper.orderByAsc("sort");
         List<ChangeType> list = selectList(queryWrapper);
         List<ChangeType> voList = new ArrayList<ChangeType>();
         for (ChangeType bean : list) {
@@ -301,7 +302,7 @@ public class ChangeTypeService extends BaseService<ChangeTypeDao, ChangeType> {
             }
 
         } else {
-            return ResultInfo.error("属性一栏中，名称已存在");
+            return ResultInfo.error("名称已存在");
         }
         return ResultInfo.success();
     }
