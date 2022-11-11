@@ -1,0 +1,6 @@
+# Project exclude paths
+/itss-api/target/
+/itss-app/target/
+/itss-model/target/
+/itss-vue/dist/static/js/
+/itss-web/target/
