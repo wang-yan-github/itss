@@ -421,9 +421,9 @@ Page({
         })
     },
     addgd: function (e) {
-        wx.navigateTo({
-            url: '../add/index',
-        })
+      wx.navigateTo({
+        url: 'add/index',
+      })
     },
     // getHeight:function(){
     //     //创建节点选择器

@@ -155,6 +155,6 @@
   </van-popup>
 </van-popup>
 
-<view class="footbtn {{selected?'':'hide'}}" id="footerid">
-  <van-button icon="plus" type="info" wx:if="authority.event_self_kaidan" custom-style="width:600rpx;margin-left:0px;border-radius:5px;" bindtap="addgd">问题添加</van-button>
-</view>
+<!-- <view class="footbtn {{selected?'':'hide'}}" id="footerid">
+  <van-button icon="plus" type="info" wx:if="authority.event_self_kaidan" custom-style="width:600rpx;margin-left:0px;border-radius:5px;" bindtap="addgd">我要添加</van-button>
+</view> -->

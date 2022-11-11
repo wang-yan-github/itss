@@ -242,7 +242,7 @@ Page({
     }, 3000);
 
     var questionData = that.data.formData;
-    questionData.userId = wx.getStorageSync('userInfo').id;
+    questionData.WX_userId = wx.getStorageSync('userInfo').id;
     console.log(questionData)
     if (questionData.source_id == -1) {
       wx.showToast({

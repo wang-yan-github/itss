@@ -27,6 +27,7 @@
     "pages/thing/working/zhipai/index", 
     "pages/thing/working/detail/index",      
     "pages/thing/working/index",
+    "pages/thing/working/add/index",
     "pages/fabu/myfabu/index",
     "pages/fabu/myfabu/detail/index",
     "pages/fabu/dbfabu/index",
@@ -46,6 +47,10 @@
     "pages/setting/setrequerymana/index",
     "pages/setting/setrequerymana/detail/index",
     "pages/setting/mysetrequery/index",
+    "pages/setting/mysetrequery/add/index",
+    "pages/setting/mysetrequery/add/seleserve/index",
+    "pages/setting/mysetrequery/add/seleserve2/index",
+    "pages/setting/mysetrequery/add/seleserve3/index",
     "pages/setting/agencyrequery/index",
     "pages/setting/agencyrequery/detail/index",
     "pages/knowledge/myknowledge/index",
@@ -70,8 +75,11 @@
     "pages/changed/dbchanged/fanganshenhe/index",
     "pages/changed/dbchanged/shiships/index",
     "pages/fabu/myfabu/add/index",
-    "pages/fabu/myfabu/add/seleserve/index"
-    
+    "pages/fabu/myfabu/add/seleserve/index",
+    "pages/changed/mychanged/add/index",
+    "pages/changed/mychanged/add/seleserve/index",
+    "pages/changed/mychanged/add/selquestion/index",
+    "pages/changed/mychanged/add/selassets/index"
   ],
   "window":{
     "backgroundTextStyle":"dark",

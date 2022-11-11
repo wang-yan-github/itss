@@ -289,7 +289,7 @@ Page({
       let params = {
         "pageIndex": 1,
         "pageSize": that.data.pageSize == undefined ? 10 : that.data.pageSize*that.data.pageIndex,
-        "userId": wx.getStorageSync('userInfo').id,
+        "WX_userId": wx.getStorageSync('userInfo').id,
         "service_groups_type": '1',
         "status": '4,5,6',
         "title": that.data.queryForm.keyword,
