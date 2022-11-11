@@ -123,7 +123,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    address: "http://192.168.0.96:8081/itss-app/app/",
-    uploadUrl: "http://192.168.0.96:8081/itss-app/app/fileManage/imgFileSave.json"
+    address: "http://192.168.0.96:8082/app/",
+    uploadUrl: "http://192.168.0.96:8082/app/fileManage/imgFileSave.json"
   }
 })

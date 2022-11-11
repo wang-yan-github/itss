@@ -8,6 +8,6 @@ spring:
   application:
     name: app
   profiles:
-    active: api
+    active: wangyan
     include: satoken
 
