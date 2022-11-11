@@ -1,0 +1,160 @@
+<!--pages/thing/working/chuli/index.wxml-->
+<view class="navigation-container" style="{{'height: ' + navigationBarAndStatusBarHeight}}">
+  <!--空白来占位状态栏-->
+  <view style="{{'height: ' + statusBarHeight}}"></view>
+  <!--自定义导航栏-->
+  <view class="navigation-bar" style="{{'height:' + navigationBarHeight}}">
+    <view class="navigation-buttons" style="{{'height:' + menuButtonHeight}}">
+      <van-icon name="arrow-left" size="18" color="black" bindtap="backTo" />
+    </view>
+    <view class="navigation-title" style="{{'line-height:' + navigationBarHeight}}">{{title}}</view>
+  </view>
+</view>
+<view style="{{'height:' + navigationBarAndStatusBarHeight}}"></view>
+<view class="wrap" style="{{'padding-top:' + navigationBarAndStatusBarHeight + ';height:(100% - ' + topHeight + 'px)'}}">
+  <view class="contWrap">
+    <view class="box">
+      <van-collapse value="{{ activeNames }}" bind:change="onChangecol">
+        <van-collapse-item title="基本信息" name="1" size="large">
+          <view class="cloumformbox">
+            <view class="li">
+              <view class="label star">标题</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入标题" border="{{ false }}" clearable bind:change='onchangeTitle' value="{{ mytitle }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li" bindtap="showstartTime">
+              <view class="label star">计划开始时间</view>
+              <view class="inputs sel">{{start_time}}</view>
+            </view>
+            <view class="li" bindtap="showendTime">
+              <view class="label star">计划结束时间</view>
+              <view class="inputs sel">{{end_time}}</view>
+            </view>
+            <view class="li" bindtap="chooseCategory">
+              <view class="label star">变更类别</view>
+              <view class="inputs sel">{{categoryName}}</view>
+            </view>
+            <view class="li" bindtap="chooseType">
+              <view class="label star">变更类型</view>
+              <view class="inputs sel">{{typeName}}</view>
+            </view>
+            <view class="li" bindtap="chooseSource">
+              <view class="label star">变更来源</view>
+              <view class="inputs sel">{{sourceName}}</view>
+            </view>
+            <view class="li" >
+              <view class="label ">审批人</view>
+              <view class="inputs ">{{approveNames}}</view>
+            </view>
+            <view class="li" >
+              <view class="label ">方案审核人</view>
+              <view class="inputs ">{{programmeApproveUser}}</view>
+            </view>
+            <view class="li">
+              <view class="label ">实施后评审人</view>
+              <view class="inputs ">{{implementApproveUser}}</view>
+            </view>
+          
+            <view class="li">
+              <view class="label star">变更原因</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangereason' value="{{ reason }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">当前环境</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入描述" border="{{ false }}" clearable bind:change='onchangeenvironment' value="{{ content }}" data-params="description" />
+              </view>
+            </view>
+            
+           
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="方案拟定" name="2" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="chooseProgramme">
+              <view class="label star">方案拟定人</view>
+              <view class="inputs sel">{{programme_user_name}}</view>
+            </view>
+            <view class="li">
+              <view class="label star">变更方案</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入" border="{{ false }}" clearable bind:change='onchangeprogramme' value="{{ change_programme }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">回退计划</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入" border="{{ false }}" clearable bind:change='onfallbackplan' value="{{ fallback_plan }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li">
+              <view class="label star">风险评估</view>
+              <view class="inputs mr30 heightauto">
+                <van-field type="textarea" autosize placeholder="请输入" border="{{ false }}" clearable bind:change='onriskassessment' value="{{ risk_assessment }}" data-params="description" />
+              </view>
+            </view>
+            <view class="li" bindtap="chooseImplement">
+              <view class="label star">实施人</view>
+              <view class="inputs sel">{{implement_user_name}}</view>
+            </view>
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="关联的事件" name="3" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="choosed1">
+              <view class="label relation-label">关联的事件</view>
+              <view class="inputs sel" wx:for="{{eventList}}" wx:key="item" data-id="{{item.id}}">{{item.title}} </view>
+            </view>
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="关联的问题" name="4" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="choosed2">
+              <view class="label relation-label">关联的问题</view>
+              <view class="inputs sel" wx:for="{{questionList}}" wx:key="item" data-id="{{item.id}}">{{item.title}} </view>
+            </view>
+          </view>
+        </van-collapse-item>
+        <van-collapse-item title="关联的配置" name="5" size="large">
+          <view class="cloumformbox">
+            <view class="li" bindtap="choosed3">
+              <view class="label relation-label">关联的配置</view>
+              <view class="inputs sel" wx:for="{{assetsList}}" wx:key="item" data-id="{{item.id}}">{{item.assets_name}} </view>
+            </view>
+          </view>
+        </van-collapse-item>
+      </van-collapse>
+    </view>
+  </view>
+</view>
+<view class="footbtn" id="footer">
+  <van-button plain type="info" custom-style="width:300rpx;margin-left:0px;border-radius:5px;" bindtap="backTo">取消</van-button>
+  <van-button type="info" custom-style="width:300rpx;margin-left:10px;border-radius:5px;" disabled="{{disabledButton}}" bind:click="onEventSave">保存</van-button>
+</view>
+
+
+<van-toast id="van-toast" />
+<van-popup show="{{show}}" position="bottom">
+         <van-picker columns="{{ categoryNameList }}" bind:change="onChange"  title="选择类别" default-index="{{ 1 }}" show-toolbar bind:confirm="onConfirm" bind:cancel="onCancel" />
+</van-popup>
+<van-popup show="{{show1}}" position="bottom">
+         <van-picker columns="{{ typeNameList }}" bind:change="onChange1"  title="选择类型" default-index="{{ 1 }}" show-toolbar bind:confirm="onConfirm1" bind:cancel="onCancel1" />
+</van-popup>
+<van-popup show="{{show2}}" position="bottom">
+  <van-picker columns="{{ sourceNameList }}" bind:change="onChange2" default-index="{{ 0 }}" title="选择来源" show-toolbar bind:confirm="onConfirm2" bind:cancel="onCancel2" />
+</van-popup>
+
+<van-popup show="{{ show3 }}" position="bottom">
+    <van-datetime-picker title="时间选择" type="date" value="{{ selDate }}" min-date="{{ minDate }}" formatter="{{ formatter }}" bind:confirm="confirmData"  bind:cancel="onClose3" />
+</van-popup>
+
+<van-popup show="{{show4}}" position="bottom">
+         <van-picker columns="{{ peopleNameList }}" bind:change="onChange4"  title="选择方案拟定人" default-index="{{ 0 }}" show-toolbar bind:confirm="onConfirm4" bind:cancel="onCancel4" />
+</van-popup>
+
+<van-popup show="{{show5}}" position="bottom">
+         <van-picker columns="{{ peopleNameList }}" bind:change="onChange5"  title="选择方案拟定人" default-index="{{ 0 }}" show-toolbar bind:confirm="onConfirm5" bind:cancel="onCancel5" />
+</van-popup>
