@@ -95,11 +95,15 @@
       <!-- <el-table-column show-overflow-tooltip type="selection"></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
-        type="index" label="序号"
+        label="序号"
         align="center"
         width="200px;"
         sortable
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          {{(queryForm.pageNo-1) * queryForm.pageSize+scope.$index+1}}
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="file_name"

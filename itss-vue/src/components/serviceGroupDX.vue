@@ -40,11 +40,11 @@
       </el-table-column>
       <el-table-column show-overflow-tooltip prop="principalName" label="负责人" ></el-table-column>
       <el-table-column show-overflow-tooltip prop="engineerName" label="工程师" ></el-table-column>
-      <el-table-column show-overflow-tooltip prop="auto_engineer" label="处理人为空自动指定工程师" align="center" width="190px;">
-        <template slot-scope="scope">
-          <el-tag type="success" v-if="scope.row.auto_engineer == 1">是</el-tag>
-          <el-tag type="danger" v-else>否</el-tag>
-        </template>
+      <el-table-column show-overflow-tooltip prop="auto_engineer_name" label="处理人为空自动指定工程师" align="center" width="190px;">
+<!--        <template slot-scope="scope">-->
+<!--          <el-tag type="success" v-if="scope.row.auto_engineer == 1">是</el-tag>-->
+<!--          <el-tag type="danger" v-else>否</el-tag>-->
+<!--        </template>-->
       </el-table-column>
 <!--      <el-table-column show-overflow-tooltip prop="sort" label="排序"></el-table-column>-->
     </el-table>

@@ -51,11 +51,15 @@
       <!-- <el-table-column show-overflow-tooltip type="selection"></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
-        type="index" label="序号"
+        label="序号"
         align="center"
         width="80"
         sortable
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          {{(queryForm.pageNo-1) * queryForm.pageSize+scope.$index+1}}
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="work_name"
@@ -80,9 +84,13 @@
         label="默认"
         align="center"
       >
-        <template slot-scope="scope">
-          {{ scope.row.acquiesce == 1 ? '否' : '是' }}
+        <template #default="scope">
+          <div v-if="scope.row.acquiesce != 1" style="color: red">是</div>
+          <div v-if="scope.row.acquiesce == 1">否</div>
         </template>
+
+
+
       </el-table-column>
 
 
@@ -199,6 +207,12 @@
             console.log(msg);
             if (msg ==='成功') {
               this.$baseMessage(msg, 'success')
+              // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+              const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+              this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+              this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
+
+
               this.fetchData()
             }else {
               this.$baseMessage(msg, 'warning')

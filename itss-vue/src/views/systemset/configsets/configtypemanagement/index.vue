@@ -204,6 +204,11 @@
           this.$baseConfirm('你确定要删除选中项吗', null, async () => {
             const {msg} = await delAssetsType({ids})
             this.$baseMessage(msg, 'success')
+
+            // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+            const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+            this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+            this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
             this.fetchData()
           })
         } else {

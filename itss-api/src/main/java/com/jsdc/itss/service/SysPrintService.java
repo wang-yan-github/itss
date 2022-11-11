@@ -40,15 +40,15 @@ public class SysPrintService extends BaseService<SysPrintDao, SysPrint> {
         PageHelper.startPage(pageIndex, pageSize);
 
         List<SysPrint> sysPrintVos = sysPrintMapper.toList(beanParam);
-        List<SysPrint> result = new ArrayList<>();
+
         for (SysPrint temp : sysPrintVos){
             if (temp.getCreate_user()!= null){
                 String create_user_name = getUserName(temp.getCreate_user());
                 temp.setCreate_user_name(create_user_name);
             }
-            result.add(temp);
+
         }
-        PageInfo<SysPrint> page = new PageInfo<>(result);
+        PageInfo<SysPrint> page = new PageInfo<>(sysPrintVos);
 
         return page;
     }

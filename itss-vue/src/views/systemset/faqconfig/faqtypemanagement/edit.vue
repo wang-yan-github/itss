@@ -358,18 +358,22 @@
       saveok() {
         this.$refs['form'].validate(async (valid) => {
           if (valid) {
-            this.isDisable = true;
-            console.log(this.form)
-            const {msg} = await saveOrUpd(this.form)
-            if(msg == '名称已存在'){
-              this.$baseMessage(msg, 'error')
+            try {
+              this.isDisable = true;
+              console.log(this.form)
+              const {msg} = await saveOrUpd(this.form)
+              if(msg == '名称已存在'){
+                this.$baseMessage(msg, 'error')
+                this.isDisable = false;
+              }else {
+                this.$baseMessage(msg, 'success')
+                this.$emit('fetch-data')
+                this.closeall()
+              }
+            } catch (error) {
               this.isDisable = false;
-            }else {
-              this.$baseMessage(msg, 'success')
-              this.$emit('fetch-data')
-              this.closeall()
             }
-
+          
           } else {
             return false
           }

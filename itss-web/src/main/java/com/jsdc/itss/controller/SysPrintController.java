@@ -23,7 +23,7 @@ public class SysPrintController extends BaseController {
 
     @RequestMapping(value = "toList.do", method = RequestMethod.POST)
     @ResponseBody
-    public ResultInfo toList(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "10") Integer pageSize, @RequestBody SysPrint beanParam) {
+    public ResultInfo toList(@RequestParam(defaultValue = "1") Integer pageIndex, @RequestParam(defaultValue = "10") Integer pageSize,  SysPrint beanParam) {
         PageInfo<SysPrint> page = sysPrintService.toList(pageIndex, pageSize, beanParam);
 
         return ResultInfo.success(page);

@@ -360,6 +360,17 @@
           path: '/help/index',
         })
       },
+      handlesee(row) {
+        if (row.id != '' && row.id != null) {
+          this.$router.push({
+            path: '/thing/wholeview',
+            query: {id: row.id},
+          })
+        } else {
+          this.$baseMessage('未选中任何行', 'error')
+          return false
+        }
+      },
       handleUserId() {
         this.selectType = 'user_id';
         this.$refs['users'].showWin()
@@ -419,6 +430,7 @@
       },
       getGroup(row) {
         this.queryForm.service_groups = row.id;
+        this.queryForm.service_groups_id = row.id
         this.queryForm.service_groups_name = row.name;
       },
       getDept(row) {

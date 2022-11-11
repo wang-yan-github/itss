@@ -4,6 +4,7 @@ import com.jsdc.core.base.BaseService;
 import com.jsdc.itss.dao.AssetsConfigReqOrderDao;
 import com.jsdc.itss.mapper.AssetsConfigReqOrderMapper;
 import com.jsdc.itss.model.AssetsConfigReqOrder;
+import com.jsdc.itss.model.SysUser;
 import com.jsdc.itss.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,16 @@ public class AssetsConfigReqOrderService extends BaseService<AssetsConfigReqOrde
     @Autowired
     SysUserService sysUserService;
 
-    public ResultInfo add(AssetsConfigReqOrder assetsConfigReqOrder) {
-
+    public ResultInfo add(AssetsConfigReqOrder assetsConfigReqOrder, Integer... intArray) {
+        //获取用户信息
+        SysUser user = null;
+        if (intArray.length > 0 && null != intArray[0]) {
+            user = sysUserService.selectById(intArray[0]);
+        } else {
+            user = sysUserService.getUser();
+        }
         assetsConfigReqOrder.setCreate_time(new Date());
-        assetsConfigReqOrder.setCreate_user(sysUserService.getUser().getId());
+        assetsConfigReqOrder.setCreate_user(user.getId());
         assetsConfigReqOrder.setIs_del("0");
         insert(assetsConfigReqOrder);
         return ResultInfo.success();

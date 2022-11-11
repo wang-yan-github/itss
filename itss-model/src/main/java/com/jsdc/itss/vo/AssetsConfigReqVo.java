@@ -2,7 +2,10 @@ package com.jsdc.itss.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jsdc.itss.model.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
@@ -17,6 +20,9 @@ import java.util.List;
  * @author bn
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AssetsConfigReqVo extends AssetsConfigReq {
 
     // 部门名称
@@ -75,6 +81,7 @@ public class AssetsConfigReqVo extends AssetsConfigReq {
     private String keyword;
 
     private Integer userId;
+    private Integer WX_userId;
 
 
 }

@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jsdc.itss.vo.AssetsSupplierContractVo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +28,9 @@ import java.util.List;
 @TableName("assets_manage")
 @Table(name = "assets_manage")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AssetsManage extends Model<AssetsManage> implements Serializable {
 
     /**
@@ -340,6 +346,9 @@ public class AssetsManage extends Model<AssetsManage> implements Serializable {
     @Transient
     @TableField(exist = false)
     private Integer userId;
+    @Transient
+    @TableField(exist = false)
+    private Integer WX_userId;
 
 
     @Transient

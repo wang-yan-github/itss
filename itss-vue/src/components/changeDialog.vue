@@ -137,8 +137,8 @@
       <el-table-column show-overflow-tooltip prop="classify_name" align="center" sortable
                        label="变更类别"></el-table-column>
       <el-table-column show-overflow-tooltip prop="type_name" align="center" sortable label="变更类型"></el-table-column>
-      <el-table-column show-overflow-tooltip prop="approve_name" align="center" sortable label="审批人"></el-table-column>
-      <el-table-column show-overflow-tooltip prop="implement_start_time" align="center" width="130px;" label="实施开始时间"></el-table-column>
+<!--      <el-table-column show-overflow-tooltip prop="approve_name" align="center" sortable label="审批人"></el-table-column>-->
+      <el-table-column show-overflow-tooltip prop="implement_start_time" align="center"  label="实施开始时间"></el-table-column>
       <el-table-column show-overflow-tooltip prop="create_time" align="center" sortable label="创建时间">
         <template slot-scope="scope">
           <span>{{ parseDateFull(scope.row.create_time) }}</span>

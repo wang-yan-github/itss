@@ -21,7 +21,11 @@
 
     <el-table v-loading="listLoading" ref="listTable" stripe :data="list" :element-loading-text="elementLoadingText"
               highlight-current-row border @current-change="handleCurrentChange">
-      <el-table-column show-overflow-tooltip type="index" label="序号" align="center" width="70px;"></el-table-column>
+      <el-table-column show-overflow-tooltip  label="序号" align="center" width="70px;">
+        <template slot-scope="scope">
+          {{(queryForm.pageNo-1) * queryForm.pageSize+scope.$index+1}}
+        </template>
+      </el-table-column>
       <el-table-column show-overflow-tooltip prop="os_licence_name" sortable label="名称" header-align="center"
                        align="center">
         <template #default="{ row }">
@@ -111,7 +115,12 @@
           this.$baseConfirm('你确定要删除选中项吗', null, async () => {
             const {msg} = await doDelete({id})
             this.$baseMessage(msg, 'success')
-            this.queryData()
+            // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+            const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+            this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+            this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
+
+            this.fetchData()
           })
         } else {
           this.$baseMessage('未选中任何行', 'error')

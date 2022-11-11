@@ -34,7 +34,7 @@ public class SysCompanyController {
     @RequestMapping("getPage.do")
     @ResponseBody
     public ResultInfo getPage(SysCompany sysCompany,
-                              @RequestParam(defaultValue = "1") Integer pageIndex,
+                              @RequestParam(defaultValue = "1",value = "pageNo") Integer pageIndex,
                               @RequestParam(defaultValue = "10") Integer pageSize) {
         return sysCompanyService.getPage(sysCompany, pageIndex, pageSize);
     }

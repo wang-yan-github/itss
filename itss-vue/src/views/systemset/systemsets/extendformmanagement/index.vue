@@ -33,6 +33,11 @@
       border
       @current-change="handleCurrentChange"
     >
+      <el-table-column show-overflow-tooltip  label="序号" align="center" width="80px;">
+        <template slot-scope="scope">
+          {{(queryForm.pageNo-1) * queryForm.pageSize+scope.$index+1}}
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="name"
@@ -166,6 +171,11 @@
             const {msg} = await toDelete(x)
             console.log(msg);
             this.$baseMessage(msg, 'success');
+
+            // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+            const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+            this.queryForm.pageNo = this.queryForm.pageNo > totalPage ? totalPage : this.queryForm.pageNo
+            this.queryForm.pageNo = this.queryForm.pageNo < 1 ? 1 : this.queryForm.pageNo
             this.fetchData()
           })
         } else {

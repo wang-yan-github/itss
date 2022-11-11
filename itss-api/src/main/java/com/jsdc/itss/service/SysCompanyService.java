@@ -52,8 +52,8 @@ public class SysCompanyService extends BaseService<SysCompanyDao, SysCompany> {
      * @return
      */
     public ResultInfo getPage(SysCompany sysCompany ,int pageIndex, int pageSize){
-        List<SysCompanyVo> list = sysCompanyMapper.getCompanyInfo(sysCompany);
         PageHelper.startPage(pageIndex, pageSize);
+        List<SysCompanyVo> list = sysCompanyMapper.getCompanyInfo(sysCompany);
         PageInfo<SysCompanyVo> pageInfo = new PageInfo<SysCompanyVo>(list);
         return  ResultInfo.success(pageInfo);
     }

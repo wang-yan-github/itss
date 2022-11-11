@@ -5,6 +5,9 @@ export function toList(data) {
   return request({
     url: '/sysPrint/toList.do',
     method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'      //改这里就好了
+    },
     data,
   })
 }

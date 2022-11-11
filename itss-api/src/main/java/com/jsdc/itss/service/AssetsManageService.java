@@ -174,7 +174,11 @@ public class AssetsManageService extends BaseService<AssetsManageDao, AssetsMana
 
         Integer userId = null;
         if(null == beanParam.getUserId()){
-            userId = sysUserService.getUser().getId();
+            if(null != beanParam.getWX_userId()){
+                userId = beanParam.getWX_userId();
+            }else{
+                userId = sysUserService.getUser().getId();
+            }
         }else{
             userId = beanParam.getUserId();
         }

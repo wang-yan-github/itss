@@ -73,11 +73,15 @@
       <!-- <el-table-column show-overflow-tooltip type="selection"></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
-        type="index" label="序号"
+        label="序号"
         align="center"
         width="200px;"
         sortable
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          {{(queryForm.pageIndex-1) * queryForm.pageSize+scope.$index+1}}
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="name"
@@ -267,6 +271,11 @@
           this.$baseConfirm('你确定要删除选中项吗', null, async () => {
             const {msg} = await toDel(x)
             this.$baseMessage(msg, 'success')
+            // 为了在删除最后一页的最后一条数据时能成功跳转回最后一页的上一页
+            const totalPage = Math.ceil((this.total - 1) / this.queryForm.pageSize) // 总页数
+            this.queryForm.pageIndex = this.queryForm.pageIndex > totalPage ? totalPage : this.queryForm.pageIndex
+            this.queryForm.pageIndex = this.queryForm.pageIndex < 1 ? 1 : this.queryForm.pageIndex
+
             this.fetchData()
           })
         } else {

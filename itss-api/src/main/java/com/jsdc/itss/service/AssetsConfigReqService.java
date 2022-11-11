@@ -113,6 +113,14 @@ public class AssetsConfigReqService extends BaseService<AssetsConfigReqDao, Asse
      */
     public ResultInfo addAssetsConfigReq(AssetsConfigReqVo assetsConfigReqVo) {
 
+        //获取用户信息
+        SysUser user = null ;
+        if(null == assetsConfigReqVo.getWX_userId()){
+            user = sysUserService.getUser();
+        }else {
+            user = sysUserService.selectById(assetsConfigReqVo.getWX_userId());
+        }
+
         AssetsConfigReq assetsConfigReq = new AssetsConfigReq();
         BeanUtils.copyProperties(assetsConfigReqVo, assetsConfigReq);
 
@@ -128,7 +136,7 @@ public class AssetsConfigReqService extends BaseService<AssetsConfigReqDao, Asse
         // 创建时间
         assetsConfigReq.setCreate_time(new Date());
         // 创建者
-        assetsConfigReq.setCreate_user(sysUserService.getUser().getId());
+        assetsConfigReq.setCreate_user(user.getId());
         insert(assetsConfigReq);
 
         //关联的配置
@@ -137,7 +145,7 @@ public class AssetsConfigReqService extends BaseService<AssetsConfigReqDao, Asse
                 AssetsConfigReqProperty assetsConfigReqProperty = new AssetsConfigReqProperty();
                 assetsConfigReqProperty.setReq_NO(assetsConfigReq.getReq_NO());
                 assetsConfigReqProperty.setProperty_id(x.getId());
-                assetsConfigReqPropertyService.addAssetsConfigReqProperty(assetsConfigReqProperty);
+                assetsConfigReqPropertyService.addAssetsConfigReqProperty(assetsConfigReqProperty, assetsConfigReqVo.getWX_userId());
             });
         }
         //关联的事件
@@ -146,7 +154,7 @@ public class AssetsConfigReqService extends BaseService<AssetsConfigReqDao, Asse
                 AssetsConfigReqOrder assetsConfigReqOrder = new AssetsConfigReqOrder();
                 assetsConfigReqOrder.setReq_NO(assetsConfigReq.getReq_NO());
                 assetsConfigReqOrder.setOrder_id(x.getId());
-                assetsConfigReqOrderService.add(assetsConfigReqOrder);
+                assetsConfigReqOrderService.add(assetsConfigReqOrder, assetsConfigReqVo.getWX_userId());
             });
         }
 

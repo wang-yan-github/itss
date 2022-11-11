@@ -507,7 +507,7 @@ public class AssetsManageController extends BaseController {
     @ResponseBody
     public ResultInfo assetsManageList(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                              @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
-                             AssetsManage beanParam) {
+                                       @RequestBody AssetsManage beanParam) {
         PageInfo<AssetsManage> page = assetsManageService.toList(pageNo, pageSize, beanParam);
         return ResultInfo.success(page);
     }

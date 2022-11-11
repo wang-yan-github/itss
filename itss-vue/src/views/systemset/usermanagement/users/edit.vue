@@ -280,14 +280,14 @@
                 ></el-table-column>
                 <el-table-column
                   show-overflow-tooltip
-                  prop="email"
+                  prop="engineerName"
                   align="center"
                   label="工程师"
                   sortable
                 ></el-table-column>
                 <el-table-column
                   show-overflow-tooltip
-                  prop="weixin"
+                  prop="auto_engineer_name"
                   align="center"
                   label="处理人为空自动指定工程师"
                 ></el-table-column>

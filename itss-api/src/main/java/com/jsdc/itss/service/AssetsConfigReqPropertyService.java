@@ -7,6 +7,7 @@ import com.jsdc.core.base.BaseService;
 import com.jsdc.itss.dao.AssetsConfigReqPropertyDao;
 import com.jsdc.itss.mapper.AssetsConfigReqPropertyMapper;
 import com.jsdc.itss.model.AssetsConfigReqProperty;
+import com.jsdc.itss.model.SysUser;
 import com.jsdc.itss.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,13 +54,20 @@ public class AssetsConfigReqPropertyService extends BaseService<AssetsConfigReqP
     /**
      * 添加
      */
-    public ResultInfo addAssetsConfigReqProperty(AssetsConfigReqProperty bean) {
+    public ResultInfo addAssetsConfigReqProperty(AssetsConfigReqProperty bean,Integer ... intArray) {
         // 删除状态
         bean.setIs_del(String.valueOf(0));
         // 创建时间
         bean.setCreate_time(new Date());
+        //获取用户信息
+        SysUser user = null;
+        if (intArray.length > 0 && null != intArray[0]) {
+            user = sysUserService.selectById(intArray[0]);
+        } else {
+            user = sysUserService.getUser();
+        }
         // 创建者
-        bean.setCreate_user(sysUserService.getUser().getId());
+        bean.setCreate_user(user.getId());
         insert(bean);
         return ResultInfo.success();
     }
